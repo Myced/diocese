@@ -49,7 +49,14 @@
 
                 <li class="has-submenu">
                     <a href="#"><i class="icon-settings"></i>Settings</a>
-                    <ul class="submenu ">
+                    <ul class="submenu">
+                        <li class="has-submenu">
+                            <a href="#">Schools</a>
+                            <ul class="submenu">
+                                <li><a href="add_school.php">Add School</a></li>
+                                <li><a href="manage_schools.php">Manage Schools</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
 

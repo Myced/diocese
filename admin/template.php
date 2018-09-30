@@ -2,6 +2,7 @@
 /**
 This file is a sample file that will be used to build all other
 pages in this application.
+@param new for new
 **/
 
 //start by including the scripts required for this page
@@ -12,6 +13,7 @@ include_once '../classes/day.php'; //contains values for current day, month and 
 include_once '../classes/class.AccountStatus.php';
 include_once '../classes/class.User.php'; //instantiates a user object;
 include_once '../classes/class.UserLevel.php';
+include_once '../classes/class.Constants.php';
 
 //initialise the database variable to use in the application
 $db = new dbc();
