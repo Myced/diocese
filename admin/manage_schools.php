@@ -128,7 +128,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                         width="100px" height="100px">
                                                  </td>
 
-                                                 <td> <strong><?php echo $row['name']; ?></strong> </td>
+                                                 <td> <?php echo $row['name']; ?> </td>
                                                  <td> <?php echo $row['abbreviation']; ?> </td>
                                                  <td> <?php echo $row['address']; ?> </td>
                                                  <td> <?php echo $row['tel']; ?> </td>

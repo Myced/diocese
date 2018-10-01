@@ -57,6 +57,14 @@
                                 <li><a href="manage_schools.php">Manage Schools</a></li>
                             </ul>
                         </li>
+
+                        <li class="has-submenu">
+                            <a href="#">Functions</a>
+                            <ul class="submenu">
+                                <li><a href="add_function.php">Add Function</a></li>
+                                <li><a href="manage_functions.php">Manage Functions</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
 

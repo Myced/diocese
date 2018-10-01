@@ -143,7 +143,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                       <label for="name" class="col-sm-4 col-form-label bold">Name of School:</label>
                                       <div class="col-sm-8">
                                           <input type="text"  name="name" id="name" class="form-control"
-                                            placeholder="St Paul College ">
+                                            placeholder="St Paul College " required>
                                       </div>
                                   </div>
 
