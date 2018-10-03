@@ -34,3 +34,9 @@ th
     font-size: 1.1em;
     color: red;
 }
+
+.col-form-label
+{
+    text-align: right;
+    font-weight: bold;
+}

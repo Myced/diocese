@@ -42,6 +42,7 @@ if(isset($_POST['update']))
         // insert into the database
         $query  = "UPDATE `functions` SET
                 `function` = '$function'
+                WHERE `id` = '$id'
         ";
 
         $result = mysqli_query($dbc, $query)
