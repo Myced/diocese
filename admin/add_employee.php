@@ -67,7 +67,7 @@ include_once 'includes/navigation.php'; //page navigations.
                           </div>
                       </div>
 
-                      <form class="form-horizontal" action="add_personal_information.php" method="post">
+                      <form class="form-horizontal" action="add_personnal_information.php" method="post">
                           <div class="row">
                               <div class="col-md-12">
                                   <h3 class="page-header">General Information</h3>
@@ -93,7 +93,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                               </div>
                                           </div>
 
-                                          <div class="form-group row">
+                                          <div class="form-group row hide" id="prefixField">
                                               <label for="" class="col-sm-4 col-form-label"></label>
                                               <div class="col-sm-8">
                                                   <input type="text" name="other" value=""
@@ -191,7 +191,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                               <label for="" class="col-sm-4 col-form-label">Employment Date:</label>
                                               <div class="col-sm-8">
                                                   <div class="row">
-                                                      <div class="col-xs-3">
+                                                      <div class="col-md-3">
                                                           <select class="form-control" name="emp_day">
                                                               <option value="--">--DAY--</option>
                                                               <?php
@@ -208,7 +208,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                           </select>
                                                       </div>
 
-                                                      <div class="col-xs-5">
+                                                      <div class="col-md-5">
                                                           <select class="form-control" name="emp_month">
                                                               <option value="--">--MONTH--</option>
                                                               <?php
@@ -225,7 +225,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                           </select>
                                                       </div>
 
-                                                      <div class="col-xs-5">
+                                                      <div class="col-md-3">
                                                           <select class="form-control" name="emp_year">
                                                               <option value="--">--YEAR--</option>
                                                               <?php
@@ -276,7 +276,34 @@ include_once 'includes/footer.php';
 include_once 'includes/scripts.php';
    ?>
  <!-- enter your custom scripts needed for the page here -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#prefix").click(function(){
 
+            //Get the selected value and check what it contains
+            $select = $("#prefix option:selected").val();
+
+            if($select == "other")
+            {
+                //show the box for other prefix
+                if($("#prefixField").hasClass("hide"))
+                {
+                    $("#prefixField").removeClass("hide");
+                }
+                $("#prefixField").addClass("show");
+            }
+            else
+            {
+                if($("#prefixField").hasClass("show"))
+                {
+                    //Remove the other form field
+                    $("#prefixField").removeClass("show");
+                }
+                $("#prefixField").addClass("hide");
+            }
+        });
+    })
+</script>
  <?php
 include_once 'includes/end.php';
   ?>

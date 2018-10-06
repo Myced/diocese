@@ -24,14 +24,73 @@ $total = 9; // ther are nine sections to fill
 $current = 8;
 
 //page logic
-if(isset($_POST['add']))
+if(isset($_POST['name']))
 {
+    $matricule = filter($_POST['matricule']);
+    $name = filter($_POST['name']);
 
+    $success = "Work Experience Saved";
 }
 else {
-    $name = "Cedric";
-    $matricule = "334-dfj4";
+    $name = "";
+    $matricule = "";
 }
+
+if(isset($_POST['document-type']))
+{
+    $matricule = filter($_POST['matricule']);
+    $name = filter($_POST['name']);
+
+    $file = $_FILES ['file'];
+
+    $name1 = $file ['name'];
+    $type = $file ['type'];
+    $size = $file ['size'];
+    $tmppath = $file ['tmp_name'];
+
+    $filename = date("dmYhms") . $name1;
+
+    $filetype = filter($_POST['document-type']);
+    $other = filter($_POST['other']);
+
+    if($filetype == 'Other Document' || $filetype == 'Other Certificate')
+    {
+        $filetype = $other;
+    }
+
+    //get the file extenstion
+    $spl = new SplFileInfo($name1);
+    $extention = strtolower($spl->getExtension());
+
+    $location = 'uploads/employees/documents/' . $filename;
+
+    if(move_uploaded_file ($tmppath, '../' . $location))//image is a folder in which you will save image
+    {
+        $query = "INSERT INTO `files`
+            (`matricule`, `name`, `type`, `location`)
+            VALUES
+            ('$matricule', '$filetype', '$extention', '$location')
+        ";
+
+        $result = mysqli_query($dbc, $query)
+            or die("Cannot insert");
+
+        if($filetype == "Picture")
+        {
+            $query = "UPDATE `employees` SET `profile` = '$location'
+            WHERE `matricule` = '$matricule' ";
+            $result = mysqli_query($dbc, $query)
+                or die("Error");
+        }
+
+        $success = "File Uploaded";
+    }
+
+    $current = 9;
+}
+
+//process file upload here
+
 
 //calculate percentage
 $percentage = ceil( ($current / $total) * 100 );
@@ -94,11 +153,12 @@ include_once 'includes/navigation.php'; //page navigations.
                               <div class="col-md-12">
                                   <h3 class="page-header">Upload Documents</h3>
 
+                                  <input type="hidden" name="matricule" value="<?php echo $matricule; ?>" id="matricule">
+                                  <input type="hidden" name="name" value="<?php echo $name; ?>">
+
+
                                   <div class="row">
                                       <div class="col-md-10">
-
-                                          <input type="hidden" name="namtricule" value="<?php echo $matricule; ?>"
-                                          id="matricule">
 
                                           <div class="form-group row">
                                               <label for="" class="col-sm-4 col-form-label">Upload File: </label>
@@ -147,7 +207,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                       </div>
 
                                                       <div class="col-md-5">
-                                                          <input type="text" name="name" value="" class="form-control"
+                                                          <input type="text" name="other" value="" class="form-control"
                                                           placeholder="Certificate or Document Name" id="docname">
                                                       </div>
                                                   </div>
@@ -178,6 +238,13 @@ include_once 'includes/navigation.php'; //page navigations.
                                                                 ?>
                                                             <tr>
                                                                 <td><?php echo $count++; ?></td>
+                                                                <td>
+                                                                    <img src="<?php echo '../' . $row['location']; ?>" alt="Document"
+                                                                    width="150px" height="150pc">
+                                                                </td>
+
+                                                                <td><?php echo $row['name']; ?></td>
+                                                                <td></td>
                                                             </tr>
                                                                 <?php
                                                             }

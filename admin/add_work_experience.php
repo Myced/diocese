@@ -24,13 +24,25 @@ $total = 9; // ther are nine sections to fill
 $current = 7;
 
 //page logic
-if(isset($_POST['add']))
+if(isset($_POST['qualification']))
 {
+    $matricule = filter($_POST['matricule']);
+    $name = filter($_POST['name']);
 
+    $qualification = filter($_POST['qualification']);
+
+    $query = "UPDATE `employees` SET `hqual`  = '$qualification'
+            WHERE `matricule` = '$matricule'
+    ";
+
+    $result = mysqli_query($dbc, $query)
+        or die('Error');
+
+    $success = "Qualification Saved";
 }
 else {
-    $name = "Cedric";
-    $matricule = "334-dfj4";
+    $name = "";
+    $matricule = "";
 }
 
 //calculate percentage
@@ -96,8 +108,9 @@ include_once 'includes/navigation.php'; //page navigations.
                                   <div class="row">
                                       <div class="col-md-10">
 
-                                          <input type="hidden" name="namtricule" value="<?php echo $matricule; ?>"
-                                          id="matricule">
+                                          <input type="hidden" name="matricule" value="<?php echo $matricule; ?>" id="matricule">
+                                          <input type="hidden" name="name" value="<?php echo $name; ?>">
+
 
                                           <div class="form-group row">
                                               <label for="" class="col-sm-2 col-form-label">Experience: </label>

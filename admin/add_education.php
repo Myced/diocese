@@ -24,13 +24,34 @@ $total = 9; // ther are nine sections to fill
 $current = 6;
 
 //page logic
-if(isset($_POST['add']))
+if(isset($_POST['function']))
 {
+    $matricule = filter($_POST['matricule']);
+    $name = filter($_POST['name']);
+
+    $school = filter($_POST['school']);
+    $function  = filter($_POST['function']);
+    $competence = filter($_POST['competence']);
+    $residence = filter($_POST['residence']);
+
+    $query = "UPDATE `employees` SET
+        `school_id` = '$school',
+        `position` = '$function',
+        `competence` = '$competence',
+        `residence` = '$residence'
+
+        WHERE `matricule` = '$matricule'
+    ";
+
+    $result = mysqli_query($dbc, $query)
+        or die("Error" . mysqli_error($dbc));
+
+    $success = "School Function saved";
 
 }
 else {
-    $name = "Cedric";
-    $matricule = "334-dfj4";
+    $name = "";
+    $matricule = "";
 }
 
 //calculate percentage
@@ -93,11 +114,12 @@ include_once 'includes/navigation.php'; //page navigations.
                               <div class="col-md-12">
                                   <h3 class="page-header">Education</h3>
 
+                                  <input type="hidden" name="matricule" value="<?php echo $matricule; ?>" id="matricule">
+                                  <input type="hidden" name="name" value="<?php echo $name; ?>">
+
+
                                   <div class="row">
                                       <div class="col-md-10">
-
-                                          <input type="hidden" name="namtricule" value="<?php echo $matricule; ?>"
-                                          id="matricule">
 
                                           <div class="form-group row">
                                               <label for="" class="col-sm-4 col-form-label">
@@ -105,7 +127,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                   <span class="required">*</span>
                                               </label>
                                               <div class="col-sm-8">
-                                                  <select class="form-control" name="function" required>
+                                                  <select class="form-control" name="qualification" required>
                                                       <option value=""></option>
                                                       <?php
                                                       $query = "SELECT * FROM `qualification` ORDER BY fname ";

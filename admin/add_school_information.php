@@ -24,13 +24,30 @@ $total = 9; // ther are nine sections to fill
 $current = 5;
 
 //page logic
-if(isset($_POST['add']))
+if(isset($_POST['ice_name']))
 {
+    $matricule = filter($_POST['matricule']);
+    $name = filter($_POST['name']);
 
+    $iceName = filter($_POST['ice_name']);
+    $iceRelation = filter($_POST['ice_relation']);
+    $iceTel1 = filter($_POST['ice_tel1']);
+    $iceTel2 = filter($_POST['ice_tel2']);
+
+    $query = "INSERT INTO `personnel_nok`
+        (`employee_id`, `name_ice`, `tel1_ice`, `tel2_ice`, `relation_ice`)
+        VALUES
+        ('$matricule', '$iceName', '$iceTel1', '$iceTel2', '$iceRelation')
+    ";
+
+    $result = mysqli_query($dbc, $query)
+        or die("Error, could not save emergency number");
+
+    $success = "Emergency Contact Saved";
 }
 else {
-    $name = "Cedric";
-    $matricule = "334-dfj4";
+    $name = "";
+    $matricule = "";
 }
 
 //calculate percentage
@@ -93,11 +110,37 @@ include_once 'includes/navigation.php'; //page navigations.
                               <div class="col-md-12">
                                   <h3 class="page-header">School Information</h3>
 
+                                  <input type="hidden" name="matricule" value="<?php echo $matricule; ?>" id="matricule">
+                                  <input type="hidden" name="name" value="<?php echo $name; ?>">
+
                                   <div class="row">
                                       <div class="col-md-6">
 
-                                          <input type="hidden" name="namtricule" value="<?php echo $matricule; ?>"
-                                          id="matricule">
+                                          <div class="form-group row">
+                                              <label for="" class="col-sm-4 col-form-label">
+                                                  School:
+                                                  <span class="required">*</span>
+                                              </label>
+                                              <div class="col-sm-8">
+                                                  <select class="form-control" name="school">
+                                                      <option value="">--SELECT SCHOOL--</option>
+                                                      <?php
+                                                      $query = "SELECT * FROM `schools` ORDER BY `name` ASC ";
+                                                      $result = mysqli_query($dbc, $query)
+                                                        or die("Error");
+
+                                                        while($row = mysqli_fetch_array($result))
+                                                        {
+                                                            ?>
+                                                        <option value="<?php echo $row['id']; ?>">
+                                                            <?php echo $row['name']; ?>
+                                                        </option>
+                                                            <?php
+                                                        }
+                                                       ?>
+                                                  </select>
+                                              </div>
+                                          </div>
 
                                           <div class="form-group row">
                                               <label for="" class="col-sm-4 col-form-label">
@@ -108,7 +151,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                   <select class="form-control" name="function">
                                                       <option value=""></option>
                                                       <?php
-                                                      $query = "SELECT * FROM `functions` ";
+                                                      $query = "SELECT * FROM `functions` ORDER BY `function` ASC ";
                                                       $result = mysqli_query($dbc, $query)
                                                         or die("Error");
 
@@ -273,7 +316,7 @@ include_once 'includes/scripts.php';
         });
 
         $(document).on('click', '.delete', function(){
-            alert('clicked');
+
             var id  = $(this).data("id1");
 
             var matricule = $("#matricule").val();

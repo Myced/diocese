@@ -24,13 +24,31 @@ $total = 9; // ther are nine sections to fill
 $current = 3;
 
 //page logic
-if(isset($_POST['add']))
+if(isset($_POST['sacramental_status']))
 {
+    $matricule = filter($_POST['matricule']);
+    $name = filter($_POST['name']);
 
+    $sacramentalStatus = filter($_POST['sacramental_status']);
+    $maritalStatus = filter($_POST['marital_status']);
+    $status = filter($_POST['status']);
+
+    $query = "UPDATE `employees` SET
+            `sac` = '$sacramentalStatus',
+            `married` = '$maritalStatus',
+            `status` = '$status'
+
+            WHERE `matricule` = '$matricule'
+    ";
+
+    $result = mysqli_query($dbc, $query)
+        or die("Error");
+
+    $success = "Sacramental Status information saved";
 }
 else {
-    $name = "Cedric";
-    $matricule = "334-dfj4";
+    $name = "";
+    $matricule = "";
 }
 
 //calculate percentage
@@ -93,8 +111,13 @@ include_once 'includes/navigation.php'; //page navigations.
                               <div class="col-md-12">
                                   <h3 class="page-header">Family Status</h3>
 
+                                  <input type="hidden" name="matricule" value="<?php echo $matricule; ?>">
+                                  <input type="hidden" name="name" value="<?php echo $name; ?>">
+
+
                                   <div class="row">
                                       <div class="col-md-6">
+
 
                                           <div class="form-group row">
                                               <label for="" class="col-sm-4 col-form-label">No of Children: </label>

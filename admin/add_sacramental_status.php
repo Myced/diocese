@@ -24,9 +24,54 @@ $total = 9; // ther are nine sections to fill
 $current = 2;
 
 //page logic
-if(isset($_POST['add']))
+if(isset($_POST['birth_day']))
 {
+    $matricule = filter($_POST['matricule']);
+    $name = filter($_POST['name']);
 
+    //collect the information
+    $birthDay = filter($_POST['birth_day']);
+    $birthMonth = filter($_POST['birth_month']);
+    $birthYear = filter($_POST['birth_year']);
+    $birthPlace = filter($_POST['birth_place']);
+    $idNumber = filter($_POST['id_card_no']);
+    $idIssue = filter($_POST['id_card_issue']);
+    $issueDay = filter($_POST['id_issue_day']);
+    $issueMonth = filter($_POST['id_issue_month']);
+    $issueYear = filter($_POST['id_issue_year']);
+    $expDay = filter($_POST['id_exp_day']);
+    $expMonth = filter($_POST['id_exp_month']);
+    $expYear = filter($_POST['id_exp_year']);
+
+    //derived elements
+    $expDate = $expDay . '/' . $expMonth . '/' . $expYear;
+    $issueDate = $issueDay . '/' . $issueMonth . '/' . $issueYear;
+
+    //now query
+    $query = "UPDATE `employees`  SET
+        `day` = '$birthDay', `month` = '$birthMonth', `year` = '$birthYear',
+        `birth_place` = '$birthPlace', `id_issue` = '$idIssue',
+        `date_issue` = '$issueDate', `date_expire` = '$expDate'
+        WHERE `matricule` = '$matricule'
+    ";
+
+    $result = mysqli_query($dbc, $query)
+        or die("Error" . mysqli_error($dbc));
+
+    $query = "INSERT INTO `personnel_id_card`
+            (`employee_id`, `id_type`, `id_num`, `place_of_issue`,
+                `date_of_issue`, `date_of_expire`
+            )
+
+            VALUES
+            ('$matricule', 'ID Card', '$idNumber', '$idIssue',
+                '$issueDate', '$expDate'
+            )
+    ";
+    $result  = mysqli_query($dbc, $query)
+        or die("Could not insert id card");
+
+    $success = "Personnal Information Saved";
 }
 else {
     $name = "Cedric";
@@ -92,6 +137,9 @@ include_once 'includes/navigation.php'; //page navigations.
                           <div class="row">
                               <div class="col-md-12">
                                   <h3 class="page-header">Sacramental Status</h3>
+
+                                  <input type="hidden" name="matricule" value="<?php echo $matricule; ?>">
+                                  <input type="hidden" name="name" value="<?php echo $name; ?>">
 
                                   <div class="row">
                                       <div class="col-md-6">

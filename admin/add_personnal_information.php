@@ -23,14 +23,96 @@ $dbc = $db->get_instance();
 $total = 9; // ther are nine sections to fill
 $current = 1;
 
-//page logic
-if(isset($_POST['add']))
+function generateMatricule($empYear)
 {
-    
+    global $dbc;
+
+    $constant = "CES-";
+    $year = substr($empYear, 2, 2);
+    $p = "-P";
+
+    //get the count of those employed for that year
+    $query  = "SELECT * FROM `employees` WHERE `entry_year` = '$empYear' ";
+    $result = mysqli_query($dbc, $query)
+        or die("Error");
+
+    $count = mysqli_num_rows($result);
+
+    ++$count;
+
+    if($count < 10)
+    {
+        $num = '000' . $count;
+    }
+    elseif($count < 100)
+    {
+        $num = '00' . $count;
+    }
+    elseif ($count < 1000) {
+        $num = '0' . $count;
+    }
+    else {
+        $num  = $count;
+    }
+
+    $matricule = $constant . $year . $p . $num;
+
+    return $matricule;
+}
+
+//page logic
+if(isset($_POST['prefix']))
+{
+    //form has been submitted
+    $prefix = filter($_POST['prefix']);
+    $otherPrefix = filter($_POST['other']);
+    $fname = filter($_POST['fname']);
+    $mname = filter($_POST['mname']);
+    $lname = filter($_POST['lname']);
+    $oname = filter($_POST['oname']);
+    $sex = filter($_POST['sex']);
+    $tel = filter($_POST['tel']);
+    $email = filter($_POST['email']);
+    $nationality = filter($_POST['nationality']);
+    $empDay = filter($_POST['emp_day']);
+    $empMonth = filter($_POST['emp_month']);
+    $empYear = filter($_POST['emp_year']);
+
+    //derived variables
+    $empDate = $empDay . '/' . $empMonth . '/' . $empYear;
+    $name = $fname . ' ' . $mname . ' ' . $lname . ' ' . $oname;
+
+    if($prefix == "other")
+    {
+        $prefix = $otherPrefix;
+    }
+
+    $matricule = generateMatricule($empYear);
+
+    //save to the database
+    $query = "INSERT INTO `employees`
+            (`matricule`, `fname`, `f_name`, `m_name`, `l_name`, `o_name`,
+                `prefix`, `sex`, `contact`, `email`, `nationality`,
+                `entry_day`, `entry_month`, `entry_year`
+            )
+
+            VALUES
+            ('$matricule', '$name', '$fname', '$mname', '$lname', '$oname',
+                '$prefix', '$sex', '$tel', '$email', '$nationality',
+                '$empDay', '$empMonth', '$empYear'
+            )
+    ";
+
+    $result = mysqli_query($dbc, $query)
+        or die("Error saving employee" . mysqli_error($dbc));
+
+
+
+    $success = "General Information Saved";
 }
 else {
-    $name = "Cedric";
-    $matricule = "334-dfj4";
+    $name = "";
+    $matricule = "";
 }
 
 //calculate percentage
@@ -93,6 +175,9 @@ include_once 'includes/navigation.php'; //page navigations.
                               <div class="col-md-12">
                                   <h3 class="page-header">Personal Information</h3>
 
+                                  <input type="hidden" name="matricule" value="<?php echo $matricule; ?>">
+                                  <input type="hidden" name="name" value="<?php echo $name; ?>">
+
                                   <div class="row">
                                       <div class="col-md-6">
                                           <div class="form-group row">
@@ -100,7 +185,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                               <div class="col-sm-8">
                                                   <div class="row">
                                                       <div class="col-md-3">
-                                                          <select class="form-control" name="emp_day">
+                                                          <select class="form-control" name="birth_day">
                                                               <option value="--">--DAY--</option>
                                                               <?php
                                                               for ($i = 1; $i <= 31; $i++)
@@ -117,7 +202,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                       </div>
 
                                                       <div class="col-md-6">
-                                                          <select class="form-control" name="emp_month">
+                                                          <select class="form-control" name="birth_month">
                                                               <option value="--">--MONTH--</option>
                                                               <?php
                                                               for ($i = 1; $i <= 12; $i++)
@@ -134,7 +219,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                       </div>
 
                                                       <div class="col-md-3">
-                                                          <select class="form-control" name="emp_year">
+                                                          <select class="form-control" name="birth_year">
                                                               <option value="--">--YEAR--</option>
                                                               <?php
 
@@ -310,7 +395,7 @@ include_once 'includes/navigation.php'; //page navigations.
                               </div>
 
                               <div class="col-md3">
-                                  <button type="submit" name="add_first" class="btn btn-primary">
+                                  <button type="submit" name="add" class="btn btn-primary">
                                       Next
                                       <i class="fa fa-chevron-right"></i>
                                   </button>

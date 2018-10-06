@@ -24,13 +24,29 @@ $total = 9; // ther are nine sections to fill
 $current = 4;
 
 //page logic
-if(isset($_POST['add']))
+if(isset($_POST['children']))
 {
+    $matricule = filter($_POST['matricule']);
+    $name = filter($_POST['name']);
 
+    $children = filter($_POST['children']);
+    $dependents = filter($_POST['dependents']);
+    $adopted = filter($_POST['adopted']);
+
+    $query = "UPDATE `employees` SET
+        `children` = '$children',
+        `dependent` = '$dependents',
+        `achildren` = '$adopted'
+        WHERE `matricule` = '$matricule';
+    ";
+    $result = mysqli_query($dbc, $query)
+        or die("Error, cannot save information");
+
+    $success = "Family Information saved";
 }
 else {
-    $name = "Cedric";
-    $matricule = "334-dfj4";
+    $name = "";
+    $matricule = "";
 }
 
 //calculate percentage
@@ -92,6 +108,9 @@ include_once 'includes/navigation.php'; //page navigations.
                           <div class="row">
                               <div class="col-md-12">
                                   <h3 class="page-header">In Case of Emergency</h3>
+
+                                  <input type="hidden" name="matricule" value="<?php echo $matricule; ?>">
+                                  <input type="hidden" name="name" value="<?php echo $name; ?>">
 
                                   <div class="row">
                                       <div class="col-md-6">
