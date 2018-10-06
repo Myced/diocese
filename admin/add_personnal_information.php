@@ -23,6 +23,16 @@ $dbc = $db->get_instance();
 $total = 9; // ther are nine sections to fill
 $current = 1;
 
+//page logic
+if(isset($_POST['add']))
+{
+    
+}
+else {
+    $name = "Cedric";
+    $matricule = "334-dfj4";
+}
+
 //calculate percentage
 $percentage = ceil( ($current / $total) * 100 );
 
@@ -72,19 +82,222 @@ include_once 'includes/navigation.php'; //page navigations.
                           <div class="col-md-7">
                               <h3 class="page-header">
                                   <?php
-                                  echo $name . ' (' . $matricule . ')'; 
+                                  echo $name . ' (' . $matricule . ')';
                                    ?>
                               </h3>
                           </div>
                       </div>
 
-                      <form class="form-horizontal" action="add_personal_info.php" method="post">
+                      <form class="form-horizontal" action="add_sacramental_status.php" method="post">
                           <div class="row">
                               <div class="col-md-12">
                                   <h3 class="page-header">Personal Information</h3>
 
                                   <div class="row">
                                       <div class="col-md-6">
+                                          <div class="form-group row">
+                                              <label for="" class="col-sm-4 col-form-label">Date of Birth:</label>
+                                              <div class="col-sm-8">
+                                                  <div class="row">
+                                                      <div class="col-md-3">
+                                                          <select class="form-control" name="emp_day">
+                                                              <option value="--">--DAY--</option>
+                                                              <?php
+                                                              for ($i = 1; $i <= 31; $i++)
+                                                              {
+                                                                  ?>
+                                                            <option value="<?php echo $i; ?>"
+                                                            >
+                                                            <?php echo $i; ?>
+                                                            </option>
+                                                                  <?php
+                                                              }
+                                                               ?>
+                                                          </select>
+                                                      </div>
+
+                                                      <div class="col-md-6">
+                                                          <select class="form-control" name="emp_month">
+                                                              <option value="--">--MONTH--</option>
+                                                              <?php
+                                                              for ($i = 1; $i <= 12; $i++)
+                                                              {
+                                                                  ?>
+                                                            <option value="<?php echo $i; ?>"
+                                                            >
+                                                            <?php echo get_month($i); ?>
+                                                            </option>
+                                                                  <?php
+                                                              }
+                                                               ?>
+                                                          </select>
+                                                      </div>
+
+                                                      <div class="col-md-3">
+                                                          <select class="form-control" name="emp_year">
+                                                              <option value="--">--YEAR--</option>
+                                                              <?php
+
+                                                              for ($i = 1970; $i <= date("Y"); $i++)
+                                                              {
+                                                                  ?>
+                                                            <option value="<?php echo $i; ?>"
+                                                            >
+                                                            <?php echo $i; ?>
+                                                            </option>
+                                                                  <?php
+                                                              }
+                                                               ?>
+                                                          </select>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                          <div class="form-group row">
+                                              <label for="" class="col-sm-4 col-form-label">Place of Birth: </label>
+                                              <div class="col-sm-8">
+                                                  <input type="text" name="birth_place" value=""
+                                                  class="form-control" placeholder="place of birth">
+                                              </div>
+                                          </div>
+
+                                          <div class="form-group row">
+                                              <label for="" class="col-sm-4 col-form-label">ID CARD No: </label>
+                                              <div class="col-sm-8">
+                                                  <input type="text" name="id_card_no" value=""
+                                                  class="form-control" placeholder="ID Card No.">
+                                              </div>
+                                          </div>
+
+                                          <div class="form-group row">
+                                              <label for="" class="col-sm-4 col-form-label">Issued At: </label>
+                                              <div class="col-sm-8">
+                                                  <input type="text" name="id_card_issue" value=""
+                                                  class="form-control" placeholder="eG. SW 22">
+                                              </div>
+                                          </div>
+
+                                      </div>
+
+                                      <div class="col-md-6">
+                                          <div class="form-group row">
+                                              <label for="" class="col-sm-4 col-form-label">Date of Issue:</label>
+                                              <div class="col-sm-8">
+                                                  <div class="row">
+                                                      <div class="col-md-3">
+                                                          <select class="form-control" name="id_issue_day" id="id_issue_day">
+                                                              <option value="--">--DAY--</option>
+                                                              <?php
+                                                              for ($i = 1; $i <= 31; $i++)
+                                                              {
+                                                                  ?>
+                                                            <option value="<?php echo $i; ?>"
+                                                            >
+                                                            <?php echo $i; ?>
+                                                            </option>
+                                                                  <?php
+                                                              }
+                                                               ?>
+                                                          </select>
+                                                      </div>
+
+                                                      <div class="col-md-6">
+                                                          <select class="form-control" name="id_issue_month" id="id_issue_month">
+                                                              <option value="--">--MONTH--</option>
+                                                              <?php
+                                                              for ($i = 1; $i <= 12; $i++)
+                                                              {
+                                                                  ?>
+                                                            <option value="<?php echo $i; ?>"
+                                                            >
+                                                            <?php echo get_month($i); ?>
+                                                            </option>
+                                                                  <?php
+                                                              }
+                                                               ?>
+                                                          </select>
+                                                      </div>
+
+                                                      <div class="col-md-3">
+                                                          <select class="form-control" name="id_issue_year" id="id_issue_year">
+                                                              <option value="--">--YEAR--</option>
+                                                              <?php
+
+                                                              for ($i = 1970; $i <= date("Y"); $i++)
+                                                              {
+                                                                  ?>
+                                                            <option value="<?php echo $i; ?>"
+                                                            >
+                                                            <?php echo $i; ?>
+                                                            </option>
+                                                                  <?php
+                                                              }
+                                                               ?>
+                                                          </select>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                          <div class="form-group row">
+                                              <label for="" class="col-sm-4 col-form-label"> Expiry Date:</label>
+                                              <div class="col-sm-8">
+                                                  <div class="row">
+                                                      <div class="col-md-3">
+                                                          <select class="form-control" name="id_exp_day" id="id_exp_day">
+                                                              <option value="--">--DAY--</option>
+                                                              <?php
+                                                              for ($i = 1; $i <= 31; $i++)
+                                                              {
+                                                                  ?>
+                                                            <option value="<?php echo $i; ?>"
+                                                            >
+                                                            <?php echo $i; ?>
+                                                            </option>
+                                                                  <?php
+                                                              }
+                                                               ?>
+                                                          </select>
+                                                      </div>
+
+                                                      <div class="col-md-6">
+                                                          <select class="form-control" name="id_exp_month" id="id_exp_month">
+                                                              <option value="--">--MONTH--</option>
+                                                              <?php
+                                                              for ($i = 1; $i <= 12; $i++)
+                                                              {
+                                                                  ?>
+                                                            <option value="<?php echo $i; ?>"
+                                                            >
+                                                            <?php echo get_month($i); ?>
+                                                            </option>
+                                                                  <?php
+                                                              }
+                                                               ?>
+                                                          </select>
+                                                      </div>
+
+                                                      <div class="col-md-3">
+                                                          <select class="form-control" name="id_exp_year" id="id_exp_year">
+                                                              <option value="--">--YEAR--</option>
+                                                              <?php
+
+                                                              for ($i = 1970; $i <= date("Y"); $i++)
+                                                              {
+                                                                  ?>
+                                                            <option value="<?php echo $i; ?>"
+                                                            >
+                                                            <?php echo $i; ?>
+                                                            </option>
+                                                                  <?php
+                                                              }
+                                                               ?>
+                                                          </select>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
 
                                       </div>
                                   </div>
