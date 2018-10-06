@@ -99,6 +99,7 @@ $percentage = ceil( ($current / $total) * 100 );
 include_once 'includes/head.php';
  ?>
  <!-- enter custom css files needed for this page here  -->
+ <link rel="stylesheet" href="../assets/css/lib/lightbox.css">
 
  <?php
 include_once 'includes/top_bar.php'; //for the page title and logo and account information
@@ -147,6 +148,36 @@ include_once 'includes/navigation.php'; //page navigations.
                           </div>
                       </div>
 
+                      <div class="row hide" id="complete">
+                          <div class="col-md-12">
+                              <div class="text-center text-success">
+                                  <i class="fa fa-check fa-4x"></i>
+                              </div>
+                          </div>
+
+                          <div class="col-md-12">
+                              <div class="text-center">
+                                  <br>
+                                  <h3 class="text-success">EMPLOYEE REGISTERED</h3>
+                              </div>
+                          </div>
+
+                          <div class="col-md-12">
+                              <div class="text-center">
+                                  <a href="add_employee.php" class="btn btn-info">
+                                      <i class="fa fa-plus"></i>
+                                      Add New Employee
+                                  </a>
+
+                                  <a href="employee_list.php" class="btn btn-warning">
+                                      <i class="fa fa-list"></i>
+                                      Employee List
+                                  </a>
+                              </div>
+                              <br>
+                          </div>
+                      </div>
+
                       <form class="form-horizontal" action="add_documents.php" method="post"
                        id="form" enctype="multipart/form-data">
                           <div class="row">
@@ -156,8 +187,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                   <input type="hidden" name="matricule" value="<?php echo $matricule; ?>" id="matricule">
                                   <input type="hidden" name="name" value="<?php echo $name; ?>">
 
-
-                                  <div class="row">
+                                  <div class="row" id="app" style="border: 1px solid green;">
                                       <div class="col-md-10">
 
                                           <div class="form-group row">
@@ -239,8 +269,37 @@ include_once 'includes/navigation.php'; //page navigations.
                                                             <tr>
                                                                 <td><?php echo $count++; ?></td>
                                                                 <td>
-                                                                    <img src="<?php echo '../' . $row['location']; ?>" alt="Document"
-                                                                    width="150px" height="150pc">
+                                                                    <?php
+                                                                    if($row['type'] == 'pdf')
+                                                                    {
+                                                                        ?>
+                                                                    <a href="<?php echo '../' . $row['location']; ?>" target="_blank">
+                                                                        <img src="../assets/images/pdf.svg" alt="PDF FILE"
+                                                                        width="150px" height="150px">
+                                                                    </a>
+                                                                        <?php
+                                                                    }
+                                                                    else if($row['type'] == 'png' || $row['type'] == 'jpg'
+                                                                     || $row['type'] == 'jpeg' || $row['type'] == 'gif')
+                                                                     {
+                                                                         ?>
+                                                                         <a href="<?php echo '../' . $row['location']; ?>" data-lightbox="gallery"
+                                                                             data-title="<?php echo $row['name']; ?>">
+                                                                             <img src="<?php echo '../' . $row['location']; ?>" alt="Document"
+                                                                                 width="150px" height="150px">
+                                                                         </a>
+                                                                         <?php
+                                                                     }
+                                                                     else {
+                                                                         ?>
+                                                                         <a href="<?php echo '../' . $row['location']; ?>" target="_blank">
+                                                                             <img src="../assets/images/doc.svg" alt="PDF FILE"
+                                                                             width="150px" height="150px">
+                                                                         </a>
+                                                                         <?php
+                                                                     }
+                                                                     ?>
+
                                                                 </td>
 
                                                                 <td><?php echo $row['name']; ?></td>
@@ -273,7 +332,7 @@ include_once 'includes/navigation.php'; //page navigations.
                               </div>
 
                               <div class="col-md3">
-                                  <button type="submit" name="add_first" class="btn btn-success">
+                                  <button type="button" name="add_first" class="btn btn-success" id="completebtn">
                                       <i class="fa fa-check"></i>
                                       Complete
 
@@ -294,6 +353,7 @@ include_once 'includes/footer.php';
 include_once 'includes/scripts.php';
    ?>
  <!-- enter your custom scripts needed for the page here -->
+<script src="../assets/js/lib/lightbox.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $("#type").click(function(){
@@ -363,6 +423,16 @@ include_once 'includes/scripts.php';
 
 
             return true;
+        });
+
+        $("#completebtn").click(function(){
+            $form = $("#form");
+            $complete = $("#complete");
+
+            $form.removeClass("show");
+            $form.addClass("hide");
+            $complete.removeClass("hide");
+            $complete.addClass("show");
         });
     });
 </script>
