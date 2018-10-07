@@ -42,6 +42,21 @@ function getSchool($id)
 
 function deleteFiles($matricule)
 {
+    global $dbc;
+    $query = "SELECT * FROM `files` WHERE `matricule` = '$matricule' ";
+    $result = mysqli_query($dbc, $query)
+        or die("Error1" . mysqli_error($dbc));
+
+    while($row = mysqli_fetch_array($result))
+    {
+        $path = '../' . $row['location'];
+
+        unlink($path);
+    }
+
+    $query = "DELETE FROM `files` WHERE `matricule` = '$matricule' ";
+    $result = mysqli_query($dbc, $query)
+        or die("Error2");
 
 }
 
@@ -58,11 +73,31 @@ if(isset($_GET['matricule']))
             //delete the employee
             $query = "DELETE FROM `employees` WHERE `matricule` = '$matricule' ";
             $result = mysqli_query($dbc, $query)
-                or die("Error");
+                or die("Error1");
 
             $query = "DELETE FROM `personnel_nok` WHERE `employee_id` = '$matricule' ";
             $result = mysqli_query($dbc, $query)
-                or die("Error");
+                or die("Error2");
+
+            $query = "DELETE FROM `personnel_id_card` WHERE `employee_id` = '$matricule' ";
+            $result = mysqli_query($dbc, $query)
+                or die("Error3");
+
+            $query = "DELETE FROM `medals` WHERE `matricule` = '$matricule' ";
+            $result = mysqli_query($dbc, $query)
+                or die("Error4");
+
+            $query = "DELETE FROM `schools_attended` WHERE `matricule` = '$matricule' ";
+            $result = mysqli_query($dbc, $query)
+                or die("Error5");
+
+            $query = "DELETE FROM `work_experience` WHERE `matricule` = '$matricule' ";
+            $result = mysqli_query($dbc, $query)
+                or die("Error6");
+
+            deleteFiles($matricule);
+
+            $success = "Employee Deleted";
         }
     }
 }
