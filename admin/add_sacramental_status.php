@@ -50,7 +50,7 @@ if(isset($_POST['birth_day']))
     //now query
     $query = "UPDATE `employees`  SET
         `day` = '$birthDay', `month` = '$birthMonth', `year` = '$birthYear',
-        `birth_place` = '$birthPlace', `id_issue` = '$idIssue',
+        `birth_place` = '$birthPlace', `id_issue` = '$idIssue', `idcard` = '$idNumber',
         `date_issue` = '$issueDate', `date_expire` = '$expDate'
         WHERE `matricule` = '$matricule'
     ";

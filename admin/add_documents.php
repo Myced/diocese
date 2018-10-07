@@ -187,7 +187,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                   <input type="hidden" name="matricule" value="<?php echo $matricule; ?>" id="matricule">
                                   <input type="hidden" name="name" value="<?php echo $name; ?>">
 
-                                  <div class="row" id="app" style="border: 1px solid green;">
+                                  <div class="row">
                                       <div class="col-md-10">
 
                                           <div class="form-group row">

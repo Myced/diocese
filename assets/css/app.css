@@ -40,3 +40,36 @@ th
     text-align: right;
     font-weight: bold;
 }
+
+.nav-stacked > li > a
+{
+    border-radius: 0;
+    border-top: 0;
+    border-left: 3px solid transparent;
+    color: #444;
+    display: block;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.nav-me
+{
+    display: block;
+}
+
+.img-circle
+{
+    border-radius: 50%;
+}
+
+.last-list
+{
+    padding: 10px;
+}
+
+.search-box
+{
+    font-size: 20px;
+    color: #222;
+    font-weight: bold;
+}
