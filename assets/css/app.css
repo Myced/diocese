@@ -41,6 +41,16 @@ th
     font-weight: bold;
 }
 
+.left-align
+{
+    text-align: left;
+}
+
+.right-align
+{
+    text-align: right;
+}
+
 .nav-stacked > li > a
 {
     border-radius: 0;
@@ -72,4 +82,25 @@ th
     font-size: 20px;
     color: #222;
     font-weight: bold;
+}
+.prof
+{
+    width: 60%;
+    margin: auto;
+}
+
+.document
+{
+    border: 3px solid #d2d6de;
+}
+
+.head-text
+{
+    font-size: 20px;
+}
+
+.list-head
+{
+    padding-top: 5px;
+    padding-bottom: 5px;
 }

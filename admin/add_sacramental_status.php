@@ -74,8 +74,8 @@ if(isset($_POST['birth_day']))
     $success = "Personnal Information Saved";
 }
 else {
-    $name = "Cedric";
-    $matricule = "334-dfj4";
+    $name = "";
+    $matricule = "";
 }
 
 //calculate percentage

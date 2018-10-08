@@ -16,6 +16,7 @@ class Employee
 
     public $name;
 
+    public $nationality;
     public $sex;
     public $tel;
     public $email;
@@ -59,6 +60,7 @@ class Employee
     public $competence;
     public $residence;
 
+    public $qualificationID;
     public $qualification;
 
     public $avatar;
@@ -94,6 +96,7 @@ class Employee
             $this->empDay = $row['entry_day'];
             $this->empMonth = $row['entry_month'];
             $this->empYear = $row['entry_year'];
+            $this->nationality = $row['nationality'];
 
             $this->empDate = $row['entry_day'] . '/' .
                 $row['entry_month'] . '/' . $row['entry_year'];
@@ -102,7 +105,7 @@ class Employee
             $this->birthMonth = $row['month'];
             $this->birthYear = $row['year'];
 
-            $this->birthDate = $row['day'] . '/' . $row['month'] .
+            $this->birthDate = $row['day'] . '/' . $row['month'] . '/' .
                         $row['year'];
 
             $this->birthPlace = $row['birth_place'];
@@ -125,13 +128,14 @@ class Employee
             $this->schoolID = $row['school_id'];
             $this->setSchool($row['school_id']);
 
-            $this->functioID  = $row['position'];
+            $this->functionID  = $row['position'];
             $this->setFunction($row['position']);
 
             $this->competence = $row['competence'];
             $this->residence = $row['residence'];
 
-            $this->qualification = $row['hqual'];
+            $this->qualificationID = $row['hqual'];
+            $this->setQualification($row['hqual']);
 
             $this->photo = $row['profile'];
 
@@ -179,6 +183,17 @@ class Employee
             $this->ICETel1 = $row['tel1_ice'];
             $this->ICETel2 = $row['tel2_ice'];
         }
+    }
+
+    private function setQualification($id)
+    {
+        $query = "SELECT `fname` FROM `qualification` WHERE `id` = '$id' ";
+        $result = mysqli_query($this->dbc, $query)
+            or die("Error");
+
+        list($qualification) = mysqli_fetch_array($result);
+
+        $this->qualification = $qualification;
     }
 
     private function setSchool($id)
@@ -246,7 +261,7 @@ class Employee
     public function getFiles()
     {
         $query = "SELECT * FROM `files` WHERE `matricule` = '$this->matricule' ";
-        return $this->dbcs->query($query);
+        return $this->dbc->query($query);
     }
 }
 

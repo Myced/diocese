@@ -8,21 +8,23 @@ include_once '../classes/class.AccountStatus.php';
 include_once '../classes/class.User.php'; //instantiates a user object;
 include_once '../classes/class.UserLevel.php';
 include_once '../classes/class.Constants.php';
+include_once '../classes/class.Employee.php';
 
 //initialise the database variable to use in the application
 $db = new dbc();
 $dbc = $db->get_instance();
 
-//calculate progress bar completion
-$total = 9; // ther are nine sections to fill
-$current = 7;
+if(isset($_GET['matricule']))
+{
+    $matricule = filter($_GET['matricule']);
+}
+else {
+    $matricule  = '';
+}
 
 //page logic
 if(isset($_POST['qualification']))
 {
-    $matricule = filter($_POST['matricule']);
-    $name = filter($_POST['name']);
-
     $qualification = filter($_POST['qualification']);
 
     $query = "UPDATE `employees` SET `hqual`  = '$qualification'
@@ -32,15 +34,10 @@ if(isset($_POST['qualification']))
     $result = mysqli_query($dbc, $query)
         or die('Error');
 
-    $success = "Qualification Saved";
-}
-else {
-    $name = "";
-    $matricule = "";
+    $success = "Education information Updated";
 }
 
-//calculate percentage
-$percentage = ceil( ($current / $total) * 100 );
+$employee = new  Employee($matricule);
 
 //then include static html
 include_once 'includes/head.php';
@@ -66,68 +63,74 @@ include_once 'includes/navigation.php'; //page navigations.
               <div class="col-md-12">
                   <div class="card-box">
                       <h2 class="page-header">
-                          Add New Employee
+                          Edit Employee Information
                       </h2>
-
-                      <br>
-                      <div class="row">
-                          <div class="col-md-12">
-                              <p><?php echo $percentage . '%'; ?> Complete</p>
-                              <div class="progress active">
-                                  <div class="progress-bar progress-bar-primary progress-bar-striped"
-                                  role="progressbar" aria-valuenow="<?php echo $percentage; ?>" aria-valuemin="0"
-                                  aria-valuemax="100" style="width: <?php echo $percentage; ?>%">
-                                      <span class="sr-only"><?php echo $percentage; ?>% Complete</span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
 
                       <br>
                       <div class="row">
                           <div class="col-md-7">
                               <h3 class="page-header">
                                   <?php
-                                  echo $name . ' (' . $matricule . ')';
+                                  echo $employee->name . ' (' . $matricule . ')';
                                    ?>
                               </h3>
                           </div>
                       </div>
 
-                      <form class="form-horizontal" action="add_documents.php" method="post">
+                      <form class="form-horizontal" action="" method="post">
                           <div class="row">
                               <div class="col-md-12">
-                                  <h3 class="page-header">Working Experience</h3>
+                                  <h3 class="page-header">Education</h3>
+
+                                  <input type="hidden" name="matricule" value="<?php echo $matricule; ?>" id="matricule">
 
                                   <div class="row">
                                       <div class="col-md-10">
 
-                                          <input type="hidden" name="matricule" value="<?php echo $matricule; ?>" id="matricule">
-                                          <input type="hidden" name="name" value="<?php echo $name; ?>">
+                                          <div class="form-group row">
+                                              <label for="" class="col-sm-4 col-form-label">
+                                                  Highest Qualification:
+                                                  <span class="required">*</span>
+                                              </label>
+                                              <div class="col-sm-8">
+                                                  <select class="form-control" name="qualification" required>
+                                                      <option value=""></option>
+                                                      <?php
+                                                      $query = "SELECT * FROM `qualification` ORDER BY fname ";
+                                                      $result = mysqli_query($dbc, $query)
+                                                        or die("Error");
 
+                                                        while($row = mysqli_fetch_array($result))
+                                                        {
+                                                            ?>
+                                                        <option value="<?php echo $row['id']; ?>"
+                                                            <?php if($employee->qualificationID == $row['id']) {echo 'selected'; } ?>>
+                                                            <?php echo $row['fname']; ?>
+                                                        </option>
+                                                            <?php
+                                                        }
+                                                       ?>
+                                                  </select>
+                                              </div>
+                                          </div>
 
                                           <div class="form-group row">
-                                              <label for="" class="col-sm-2 col-form-label">Experience: </label>
-                                              <div class="col-sm-10">
+                                              <label for="" class="col-sm-4 col-form-label">Schools Attended: </label>
+                                              <div class="col-sm-8">
                                                   <div class="row">
-                                                      <div class="col-md-4">
+                                                      <div class="col-md-5">
                                                           <input type="text" name="" value="" class="form-control"
-                                                          id="institution" placeholder="Name of Insitution">
+                                                          id="school" placeholder="School Attended">
                                                       </div>
 
                                                       <div class="col-md-3">
-                                                          <input type="text" name="" value="" id="function"
-                                                          class="form-control" placeholder="Function">
+                                                          <input type="text" name="" value="" id="certificate"
+                                                          class="form-control" placeholder="Certificate">
                                                       </div>
 
                                                       <div class="col-md-2">
-                                                          <input type="text" name="" value="" id="yearStart"
-                                                          class="form-control" placeholder="Start Year">
-                                                      </div>
-
-                                                      <div class="col-md-2">
-                                                          <input type="text" name="" value="" id="yearEnd"
-                                                          class="form-control" placeholder="End Year">
+                                                          <input type="text" name="" value="" id="year"
+                                                          class="form-control" placeholder="Year">
                                                       </div>
 
                                                       <div class="col-md-1">
@@ -141,16 +144,15 @@ include_once 'includes/navigation.php'; //page navigations.
                                           </div>
 
                                           <div class="form-group row">
-                                              <label for="" class="col-sm-2 col-form-label"></label>
-                                              <div class="col-md-10">
+                                              <label for="" class="col-sm-4 col-form-label"></label>
+                                              <div class="col-md-8">
                                                   <div class="table-responsive" id="table">
                                                       <table class="table table-bordered">
                                                           <tr>
                                                               <th>S/N</th>
-                                                              <th>Institution</th>
-                                                              <th>Function</th>
-                                                              <th>Starting Year</th>
-                                                              <th>Ending Year</th>
+                                                              <th>School</th>
+                                                              <th>Certificate</th>
+                                                              <th>Year</th>
                                                               <th>Action</th>
                                                           </tr>
                                                       </table>
@@ -172,17 +174,42 @@ include_once 'includes/navigation.php'; //page navigations.
                           </div>
 
                           <div class="row">
-                              <div class="col-md-9">
-
+                              <div class="col-md-12">
+                                  <div class="text-center">
+                                      <button type="submit" name="add" class="btn btn-primary">
+                                          <i class="fa fa-save"></i>
+                                          Save Changes
+                                      </button>
+                                  </div>
                               </div>
 
-                              <div class="col-md3">
-                                  <button type="submit" name="add_first" class="btn btn-primary">
-                                      Next
-                                      <i class="fa fa-chevron-right"></i>
-                                  </button>
+                          </div>
+                          <br>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="text-center">
+                                      <a href="edit_profile.php?matricule=<?php echo $matricule; ?>"
+                                          class="btn btn-warning">
+                                          <i class="fa fa-user"></i>
+                                          Edit Profile
+                                      </a>
+
+                                      <a href="employee_details.php?matricule=<?php echo $matricule; ?>"
+                                          class="btn btn-info">
+                                          <i class="fa fa-list-alt"></i>
+                                          Employee Details
+                                      </a>
+
+                                      <a href="employee_list.php"
+                                          class="btn btn-info">
+                                          <i class="fa fa-list"></i>
+                                          Employee List
+                                      </a>
+                                  </div>
                               </div>
                           </div>
+
                       </form>
                   </div>
               </div>
@@ -202,27 +229,25 @@ include_once 'includes/scripts.php';
         var matricule = $("#matricule").val();
         getData();
         $("#add").click(function(){
-            var institution = $("#institution").val();
-            var functions = $("#function").val();
-            var yearStart = $("#yearStart").val();
-            var yearEnd = $("#yearEnd").val();
+            var school = $("#school").val();
+            var certificate = $("#certificate").val();
+            var year = $("#year").val();
 
-            if(institution == '')
+            if(school == '')
             {
-                alert("Please enter the The institution name");
+                alert("Please enter the school name");
             }
             else {
                 //make an ajax to save it
                 $.ajax({
-                    url : 'api/add_experience.php',
+                    url : 'api/add_school_attendance.php',
                     method : "post",
-                    data : {matricule:matricule, institution:institution, function:functions, yearStart:yearStart, yearEnd:yearEnd},
+                    data : {matricule:matricule, school:school, certificate:certificate, year:year},
                     success : function(data){
                         //clear input
-                        $("#institution").val("");
-                        $("#function").val("");
-                        $("#yearStart").val("");
-                        $("#yearEnd").val("");
+                        $("#school").val("");
+                        $("#certificate").val("");
+                        $("#year").val("");
 
                         getData();
                     }
@@ -235,7 +260,7 @@ include_once 'includes/scripts.php';
         {
             matricule = $("#matricule").val();
             $.ajax({
-                url : 'api/get_experience.php',
+                url : 'api/get_schools_attended.php',
                 method : 'post',
                 data : {matricule:matricule},
                 success : function(data){
@@ -250,14 +275,14 @@ include_once 'includes/scripts.php';
 
             //perform an ajax request
             $.ajax({
-                url : 'api/del_experience.php',
+                url : 'api/del_school_attendance.php',
                 method : "post",
                 dataType : 'text',
                 data : { id: id},
                 success : function(){
                     getData();
                 }
-            });
+            })
         })
     });
 </script>

@@ -14,106 +14,69 @@ include_once '../classes/class.AccountStatus.php';
 include_once '../classes/class.User.php'; //instantiates a user object;
 include_once '../classes/class.UserLevel.php';
 include_once '../classes/class.Constants.php';
+include_once '../classes/class.Employee.php';
 
 //initialise the database variable to use in the application
 $db = new dbc();
 $dbc = $db->get_instance();
 
-//calculate progress bar completion
-$total = 9; // ther are nine sections to fill
-$current = 1;
-
-function generateMatricule($empYear)
+if(isset($_GET['matricule']))
 {
-    global $dbc;
-
-    $constant = "CES-";
-    $year = substr($empYear, 2, 2);
-    $p = "-P";
-
-    //get the count of those employed for that year
-    $query  = "SELECT * FROM `employees` WHERE `entry_year` = '$empYear' ";
-    $result = mysqli_query($dbc, $query)
-        or die("Error");
-
-    $count = mysqli_num_rows($result);
-
-    ++$count;
-
-    if($count < 10)
-    {
-        $num = '000' . $count;
-    }
-    elseif($count < 100)
-    {
-        $num = '00' . $count;
-    }
-    elseif ($count < 1000) {
-        $num = '0' . $count;
-    }
-    else {
-        $num  = $count;
-    }
-
-    $matricule = $constant . $year . $p . $num;
-
-    return $matricule;
+    $matricule = filter($_GET['matricule']);
+}
+else {
+    $matricule = '';
 }
 
 //page logic
-if(isset($_POST['prefix']))
+if(isset($_POST['birth_day']))
 {
-    //form has been submitted
-    $prefix = filter($_POST['prefix']);
-    $otherPrefix = filter($_POST['other']);
-    $fname = filter($_POST['fname']);
-    $mname = filter($_POST['mname']);
-    $lname = filter($_POST['lname']);
-    $oname = filter($_POST['oname']);
-    $sex = filter($_POST['sex']);
-    $tel = filter($_POST['tel']);
-    $email = filter($_POST['email']);
-    $nationality = filter($_POST['nationality']);
-    $empDay = filter($_POST['emp_day']);
-    $empMonth = filter($_POST['emp_month']);
-    $empYear = filter($_POST['emp_year']);
+    //collect the information
+    $birthDay = filter($_POST['birth_day']);
+    $birthMonth = filter($_POST['birth_month']);
+    $birthYear = filter($_POST['birth_year']);
+    $birthPlace = filter($_POST['birth_place']);
+    $idNumber = filter($_POST['id_card_no']);
+    $idIssue = filter($_POST['id_card_issue']);
+    $issueDay = filter($_POST['id_issue_day']);
+    $issueMonth = filter($_POST['id_issue_month']);
+    $issueYear = filter($_POST['id_issue_year']);
+    $expDay = filter($_POST['id_exp_day']);
+    $expMonth = filter($_POST['id_exp_month']);
+    $expYear = filter($_POST['id_exp_year']);
 
-    //derived variables
-    $empDate = $empDay . '/' . $empMonth . '/' . $empYear;
-    $name = $fname . ' ' . $mname . ' ' . $lname . ' ' . $oname;
+    //derived elements
+    $expDate = $expDay . '/' . $expMonth . '/' . $expYear;
+    $issueDate = $issueDay . '/' . $issueMonth . '/' . $issueYear;
 
-    if($prefix == "other")
-    {
-        $prefix = $otherPrefix;
-    }
-
-    $matricule = generateMatricule($empYear);
-
-    //save to the database
-    $query = "INSERT INTO `employees`
-            (`matricule`, `fname`, `f_name`, `m_name`, `l_name`, `o_name`,
-                `prefix`, `sex`, `contact`, `email`, `nationality`,
-                `entry_day`, `entry_month`, `entry_year`
-            )
-
-            VALUES
-            ('$matricule', '$name', '$fname', '$mname', '$lname', '$oname',
-                '$prefix', '$sex', '$tel', '$email', '$nationality',
-                '$empDay', '$empMonth', '$empYear'
-            )
+    //now query
+    $query = "UPDATE `employees`  SET
+        `day` = '$birthDay', `month` = '$birthMonth', `year` = '$birthYear',
+        `birth_place` = '$birthPlace', `id_issue` = '$idIssue', `idcard` = '$idNumber',
+        `date_issue` = '$issueDate', `date_expire` = '$expDate'
+        WHERE `matricule` = '$matricule'
     ";
 
     $result = mysqli_query($dbc, $query)
-        or die("Error saving employee" . mysqli_error($dbc));
+        or die("Error" . mysqli_error($dbc));
 
+    $query = "UPDATE `personnel_id_card` SET
+            `id_type` = 'ID Card', `id_num` = '$idNumber',
+            `place_of_issue` = '$idIssue',
+            `date_of_issue` = '$issueDate', `date_of_expire` = '$expDate'
 
+            WHERE  `employee_id` = '$matricule'
 
-    $success = "General Information Saved";
+    ";
+    $result  = mysqli_query($dbc, $query)
+        or die("Could not insert id card");
+
+    $success = "Personnal Information Updated";
 }
 
 
-//calculate percentage
-$percentage = ceil( ($current / $total) * 100 );
+$employee = new Employee($matricule);
+
 
 //then include static html
 include_once 'includes/head.php';
@@ -139,41 +102,24 @@ include_once 'includes/navigation.php'; //page navigations.
               <div class="col-md-12">
                   <div class="card-box">
                       <h2 class="page-header">
-                          Add New Employee
+                          Edit Employee Information
                       </h2>
-
-                      <br>
-                      <div class="row">
-                          <div class="col-md-12">
-                              <p><?php echo $percentage . '%'; ?> Complete</p>
-                              <div class="progress active">
-                                  <div class="progress-bar progress-bar-primary progress-bar-striped"
-                                  role="progressbar" aria-valuenow="<?php echo $percentage; ?>" aria-valuemin="0"
-                                  aria-valuemax="100" style="width: <?php echo $percentage; ?>%">
-                                      <span class="sr-only"><?php echo $percentage; ?>% Complete</span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
 
                       <br>
                       <div class="row">
                           <div class="col-md-7">
                               <h3 class="page-header">
                                   <?php
-                                  echo $name . ' (' . $matricule . ')';
+                                  echo $employee->name . ' (' . $employee->matricule . ')';
                                    ?>
                               </h3>
                           </div>
                       </div>
 
-                      <form class="form-horizontal" action="add_sacramental_status.php" method="post">
+                      <form class="form-horizontal" action="" method="post">
                           <div class="row">
                               <div class="col-md-12">
                                   <h3 class="page-header">Personal Information</h3>
-
-                                  <input type="hidden" name="matricule" value="<?php echo $matricule; ?>">
-                                  <input type="hidden" name="name" value="<?php echo $name; ?>">
 
                                   <div class="row">
                                       <div class="col-md-6">
@@ -189,7 +135,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                               {
                                                                   ?>
                                                             <option value="<?php echo $i; ?>"
-                                                            >
+                                                            <?php if($employee->birthDay == $i) { echo 'selected'; } ?> >
                                                             <?php echo $i; ?>
                                                             </option>
                                                                   <?php
@@ -206,7 +152,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                               {
                                                                   ?>
                                                             <option value="<?php echo $i; ?>"
-                                                            >
+                                                            <?php if($employee->birthMonth == $i) { echo 'selected'; } ?> >
                                                             <?php echo get_month($i); ?>
                                                             </option>
                                                                   <?php
@@ -224,7 +170,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                               {
                                                                   ?>
                                                             <option value="<?php echo $i; ?>"
-                                                            >
+                                                            <?php if($employee->birthYear == $i ) { echo 'selected'; }  ?> >
                                                             <?php echo $i; ?>
                                                             </option>
                                                                   <?php
@@ -239,7 +185,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                           <div class="form-group row">
                                               <label for="" class="col-sm-4 col-form-label">Place of Birth: </label>
                                               <div class="col-sm-8">
-                                                  <input type="text" name="birth_place" value=""
+                                                  <input type="text" name="birth_place" value="<?php echo $employee->birthPlace; ?>"
                                                   class="form-control" placeholder="place of birth">
                                               </div>
                                           </div>
@@ -247,7 +193,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                           <div class="form-group row">
                                               <label for="" class="col-sm-4 col-form-label">ID CARD No: </label>
                                               <div class="col-sm-8">
-                                                  <input type="text" name="id_card_no" value=""
+                                                  <input type="text" name="id_card_no" value="<?php echo $employee->idNumber; ?>"
                                                   class="form-control" placeholder="ID Card No.">
                                               </div>
                                           </div>
@@ -255,12 +201,21 @@ include_once 'includes/navigation.php'; //page navigations.
                                           <div class="form-group row">
                                               <label for="" class="col-sm-4 col-form-label">Issued At: </label>
                                               <div class="col-sm-8">
-                                                  <input type="text" name="id_card_issue" value=""
+                                                  <input type="text" name="id_card_issue" value="<?php echo $employee->idIssue; ?>"
                                                   class="form-control" placeholder="eG. SW 22">
                                               </div>
                                           </div>
 
                                       </div>
+
+                                      <?php
+                                      //parse issue date here
+                                      $issue = $employee->issueDate;
+                                      $days = explode('/', $issue);
+                                      $day = $days[0];
+                                      $month = $days[1];
+                                      $year = $days[2];
+                                       ?>
 
                                       <div class="col-md-6">
                                           <div class="form-group row">
@@ -275,7 +230,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                               {
                                                                   ?>
                                                             <option value="<?php echo $i; ?>"
-                                                            >
+                                                            <?php if($day == $i) { echo 'selected'; } ?> >
                                                             <?php echo $i; ?>
                                                             </option>
                                                                   <?php
@@ -292,7 +247,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                               {
                                                                   ?>
                                                             <option value="<?php echo $i; ?>"
-                                                            >
+                                                            <?php if($month == $i) { echo 'selected'; } ?> >
                                                             <?php echo get_month($i); ?>
                                                             </option>
                                                                   <?php
@@ -310,7 +265,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                               {
                                                                   ?>
                                                             <option value="<?php echo $i; ?>"
-                                                            >
+                                                            <?php if($year == $i) { echo 'selected'; } ?> >
                                                             <?php echo $i; ?>
                                                             </option>
                                                                   <?php
@@ -321,6 +276,15 @@ include_once 'includes/navigation.php'; //page navigations.
                                                   </div>
                                               </div>
                                           </div>
+
+                                          <?php
+                                          //parse issue date here
+                                          $issue = $employee->expireDate;
+                                          $days = explode('/', $issue);
+                                          $day = $days[0];
+                                          $month = $days[1];
+                                          $year = $days[2];
+                                           ?>
 
                                           <div class="form-group row">
                                               <label for="" class="col-sm-4 col-form-label"> Expiry Date:</label>
@@ -334,7 +298,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                               {
                                                                   ?>
                                                             <option value="<?php echo $i; ?>"
-                                                            >
+                                                             <?php if($day == $i) { echo 'selected'; } ?> >
                                                             <?php echo $i; ?>
                                                             </option>
                                                                   <?php
@@ -351,7 +315,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                               {
                                                                   ?>
                                                             <option value="<?php echo $i; ?>"
-                                                            >
+                                                             <?php if($month == $i) {echo 'selected'; }  ?> >
                                                             <?php echo get_month($i); ?>
                                                             </option>
                                                                   <?php
@@ -369,7 +333,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                               {
                                                                   ?>
                                                             <option value="<?php echo $i; ?>"
-                                                            >
+                                                            <?php if($year == $i ) { echo 'selected'; } ?>>
                                                             <?php echo $i; ?>
                                                             </option>
                                                                   <?php
@@ -387,17 +351,42 @@ include_once 'includes/navigation.php'; //page navigations.
                           </div>
 
                           <div class="row">
-                              <div class="col-md-9">
-
+                              <div class="col-md-12">
+                                  <div class="text-center">
+                                      <button type="submit" name="add" class="btn btn-primary">
+                                          <i class="fa fa-save"></i>
+                                          Save Changes
+                                      </button>
+                                  </div>
                               </div>
 
-                              <div class="col-md3">
-                                  <button type="submit" name="add" class="btn btn-primary">
-                                      Next
-                                      <i class="fa fa-chevron-right"></i>
-                                  </button>
+                          </div>
+                          <br>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="text-center">
+                                      <a href="edit_profile.php?matricule=<?php echo $matricule; ?>"
+                                          class="btn btn-warning">
+                                          <i class="fa fa-user"></i>
+                                          Edit Profile
+                                      </a>
+
+                                      <a href="employee_details.php?matricule=<?php echo $matricule; ?>"
+                                          class="btn btn-info">
+                                          <i class="fa fa-list-alt"></i>
+                                          Employee Details
+                                      </a>
+
+                                      <a href="employee_list.php"
+                                          class="btn btn-info">
+                                          <i class="fa fa-list"></i>
+                                          Employee List
+                                      </a>
+                                  </div>
                               </div>
                           </div>
+
                       </form>
                   </div>
               </div>

@@ -1,9 +1,4 @@
 <?php
-/**
-This file is a sample file that will be used to build all other
-pages in this application.
-@param new for new
-**/
 
 //start by including the scripts required for this page
 include_once '../classes/class.Company.php';
@@ -74,7 +69,7 @@ include_once 'includes/navigation.php'; //page navigations.
 
                                       <?php
                                       $count = 1;
-                                      $query = "SELECT * FROM `functions` LIMIT 5; ";
+                                      $query = "SELECT * FROM `functions` ORDER BY function ";
                                       $result = mysqli_query($dbc, $query)
                                         or die("Error");
 

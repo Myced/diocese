@@ -8,43 +8,42 @@ include_once '../classes/class.AccountStatus.php';
 include_once '../classes/class.User.php'; //instantiates a user object;
 include_once '../classes/class.UserLevel.php';
 include_once '../classes/class.Constants.php';
+include_once '../classes/class.Employee.php';
 
 //initialise the database variable to use in the application
 $db = new dbc();
 $dbc = $db->get_instance();
 
-//calculate progress bar completion
-$total = 9; // ther are nine sections to fill
-$current = 4;
-
-//page logic
-if(isset($_POST['children']))
+if(isset($_GET['matricule']))
 {
-    $matricule = filter($_POST['matricule']);
-    $name = filter($_POST['name']);
-
-    $children = filter($_POST['children']);
-    $dependents = filter($_POST['dependents']);
-    $adopted = filter($_POST['adopted']);
-
-    $query = "UPDATE `employees` SET
-        `children` = '$children',
-        `dependent` = '$dependents',
-        `achildren` = '$adopted'
-        WHERE `matricule` = '$matricule';
-    ";
-    $result = mysqli_query($dbc, $query)
-        or die("Error, cannot save information");
-
-    $success = "Family Information saved";
+    $matricule = filter($_GET['matricule']);
 }
 else {
-    $name = "";
-    $matricule = "";
+    $matricule = '';
 }
 
-//calculate percentage
-$percentage = ceil( ($current / $total) * 100 );
+if(isset($_POST['ice_name']))
+{
+
+    $iceName = filter($_POST['ice_name']);
+    $iceRelation = filter($_POST['ice_relation']);
+    $iceTel1 = filter($_POST['ice_tel1']);
+    $iceTel2 = filter($_POST['ice_tel2']);
+
+    $query = "UPDATE `personnel_nok` SET
+        `name_ice` = '$iceName', `tel1_ice` = '$iceTel1',
+        `tel2_ice` = '$iceTel2', `relation_ice` = '$iceRelation'
+
+        WHERE `employee_id` = '$matricule'
+    ";
+
+    $result = mysqli_query($dbc, $query)
+        or die("Error, could not save emergency number");
+
+    $success = "Emergency Contact Updated";
+}
+
+$employee = new Employee($matricule);
 
 //then include static html
 include_once 'includes/head.php';
@@ -70,41 +69,25 @@ include_once 'includes/navigation.php'; //page navigations.
               <div class="col-md-12">
                   <div class="card-box">
                       <h2 class="page-header">
-                          Add New Employee
+                          Edit Employee Information
                       </h2>
 
-                      <br>
-                      <div class="row">
-                          <div class="col-md-12">
-                              <p><?php echo $percentage . '%'; ?> Complete</p>
-                              <div class="progress active">
-                                  <div class="progress-bar progress-bar-primary progress-bar-striped"
-                                  role="progressbar" aria-valuenow="<?php echo $percentage; ?>" aria-valuemin="0"
-                                  aria-valuemax="100" style="width: <?php echo $percentage; ?>%">
-                                      <span class="sr-only"><?php echo $percentage; ?>% Complete</span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
 
                       <br>
                       <div class="row">
                           <div class="col-md-7">
                               <h3 class="page-header">
                                   <?php
-                                  echo $name . ' (' . $matricule . ')';
+                                  echo $employee->name . ' (' . $matricule . ')';
                                    ?>
                               </h3>
                           </div>
                       </div>
 
-                      <form class="form-horizontal" action="add_school_information.php" method="post">
+                      <form class="form-horizontal" action="" method="post">
                           <div class="row">
                               <div class="col-md-12">
                                   <h3 class="page-header">In Case of Emergency</h3>
-
-                                  <input type="hidden" name="matricule" value="<?php echo $matricule; ?>">
-                                  <input type="hidden" name="name" value="<?php echo $name; ?>">
 
                                   <div class="row">
                                       <div class="col-md-6">
@@ -116,7 +99,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                               </label>
                                               <div class="col-sm-8">
                                                   <input type="text" name="ice_name" class="form-control"
-                                                  placeholder="Name of person " required>
+                                                  placeholder="Name of person " required value="<?php echo $employee->ICEName; ?>">
                                               </div>
                                           </div>
 
@@ -124,7 +107,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                               <label for="" class="col-sm-4 col-form-label">Relationship: </label>
                                               <div class="col-sm-8">
                                                   <input type="text" name="ice_relation" class="form-control"
-                                                  placeholder="Brother">
+                                                  placeholder="Brother" value="<?php echo $employee->ICERelation; ?>">
                                               </div>
                                           </div>
 
@@ -135,7 +118,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                               </label>
                                               <div class="col-sm-8">
                                                   <input type="text" name="ice_tel1" class="form-control"
-                                                  placeholder="" required>
+                                                  placeholder="" required value="<?php echo $employee->ICETel1 ?>">
                                               </div>
                                           </div>
 
@@ -145,7 +128,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                               </label>
                                               <div class="col-sm-8">
                                                   <input type="text" name="ice_tel2" class="form-control"
-                                                  placeholder="">
+                                                  placeholder="" value="<?php echo $employee->ICETel2; ?>">
                                               </div>
                                           </div>
 
@@ -162,17 +145,42 @@ include_once 'includes/navigation.php'; //page navigations.
                           </div>
 
                           <div class="row">
-                              <div class="col-md-9">
-
+                              <div class="col-md-12">
+                                  <div class="text-center">
+                                      <button type="submit" name="add" class="btn btn-primary">
+                                          <i class="fa fa-save"></i>
+                                          Save Changes
+                                      </button>
+                                  </div>
                               </div>
 
-                              <div class="col-md3">
-                                  <button type="submit" name="add_first" class="btn btn-primary">
-                                      Next
-                                      <i class="fa fa-chevron-right"></i>
-                                  </button>
+                          </div>
+                          <br>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="text-center">
+                                      <a href="edit_profile.php?matricule=<?php echo $matricule; ?>"
+                                          class="btn btn-warning">
+                                          <i class="fa fa-user"></i>
+                                          Edit Profile
+                                      </a>
+
+                                      <a href="employee_details.php?matricule=<?php echo $matricule; ?>"
+                                          class="btn btn-info">
+                                          <i class="fa fa-list-alt"></i>
+                                          Employee Details
+                                      </a>
+
+                                      <a href="employee_list.php"
+                                          class="btn btn-info">
+                                          <i class="fa fa-list"></i>
+                                          Employee List
+                                      </a>
+                                  </div>
                               </div>
                           </div>
+
                       </form>
                   </div>
               </div>

@@ -8,39 +8,27 @@ include_once '../classes/class.AccountStatus.php';
 include_once '../classes/class.User.php'; //instantiates a user object;
 include_once '../classes/class.UserLevel.php';
 include_once '../classes/class.Constants.php';
+include_once '../classes/class.Employee.php';
 
 //initialise the database variable to use in the application
 $db = new dbc();
 $dbc = $db->get_instance();
 
-//calculate progress bar completion
-$total = 9; // ther are nine sections to fill
-$current = 7;
-
-//page logic
-if(isset($_POST['qualification']))
+if(isset($_GET['matricule']))
 {
-    $matricule = filter($_POST['matricule']);
-    $name = filter($_POST['name']);
-
-    $qualification = filter($_POST['qualification']);
-
-    $query = "UPDATE `employees` SET `hqual`  = '$qualification'
-            WHERE `matricule` = '$matricule'
-    ";
-
-    $result = mysqli_query($dbc, $query)
-        or die('Error');
-
-    $success = "Qualification Saved";
+    $matricule = filter($_GET['matricule']);
 }
 else {
-    $name = "";
-    $matricule = "";
+    $matricule = '';
 }
 
-//calculate percentage
-$percentage = ceil( ($current / $total) * 100 );
+//page process
+if(isset($_POST['matricule']))
+{
+    $success = "Work Experience Updated";
+}
+
+$employee = new Employee($matricule);
 
 //then include static html
 include_once 'includes/head.php';
@@ -66,35 +54,21 @@ include_once 'includes/navigation.php'; //page navigations.
               <div class="col-md-12">
                   <div class="card-box">
                       <h2 class="page-header">
-                          Add New Employee
+                          Edit Employee Information
                       </h2>
-
-                      <br>
-                      <div class="row">
-                          <div class="col-md-12">
-                              <p><?php echo $percentage . '%'; ?> Complete</p>
-                              <div class="progress active">
-                                  <div class="progress-bar progress-bar-primary progress-bar-striped"
-                                  role="progressbar" aria-valuenow="<?php echo $percentage; ?>" aria-valuemin="0"
-                                  aria-valuemax="100" style="width: <?php echo $percentage; ?>%">
-                                      <span class="sr-only"><?php echo $percentage; ?>% Complete</span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
 
                       <br>
                       <div class="row">
                           <div class="col-md-7">
                               <h3 class="page-header">
                                   <?php
-                                  echo $name . ' (' . $matricule . ')';
+                                  echo $employee->name . ' (' . $matricule . ')';
                                    ?>
                               </h3>
                           </div>
                       </div>
 
-                      <form class="form-horizontal" action="add_documents.php" method="post">
+                      <form class="form-horizontal" action="" method="post">
                           <div class="row">
                               <div class="col-md-12">
                                   <h3 class="page-header">Working Experience</h3>
@@ -103,8 +77,6 @@ include_once 'includes/navigation.php'; //page navigations.
                                       <div class="col-md-10">
 
                                           <input type="hidden" name="matricule" value="<?php echo $matricule; ?>" id="matricule">
-                                          <input type="hidden" name="name" value="<?php echo $name; ?>">
-
 
                                           <div class="form-group row">
                                               <label for="" class="col-sm-2 col-form-label">Experience: </label>
@@ -172,17 +144,42 @@ include_once 'includes/navigation.php'; //page navigations.
                           </div>
 
                           <div class="row">
-                              <div class="col-md-9">
-
+                              <div class="col-md-12">
+                                  <div class="text-center">
+                                      <button type="submit" name="add" class="btn btn-primary">
+                                          <i class="fa fa-save"></i>
+                                          Save Changes
+                                      </button>
+                                  </div>
                               </div>
 
-                              <div class="col-md3">
-                                  <button type="submit" name="add_first" class="btn btn-primary">
-                                      Next
-                                      <i class="fa fa-chevron-right"></i>
-                                  </button>
+                          </div>
+                          <br>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="text-center">
+                                      <a href="edit_profile.php?matricule=<?php echo $matricule; ?>"
+                                          class="btn btn-warning">
+                                          <i class="fa fa-user"></i>
+                                          Edit Profile
+                                      </a>
+
+                                      <a href="employee_details.php?matricule=<?php echo $matricule; ?>"
+                                          class="btn btn-info">
+                                          <i class="fa fa-list-alt"></i>
+                                          Employee Details
+                                      </a>
+
+                                      <a href="employee_list.php"
+                                          class="btn btn-info">
+                                          <i class="fa fa-list"></i>
+                                          Employee List
+                                      </a>
+                                  </div>
                               </div>
                           </div>
+
                       </form>
                   </div>
               </div>

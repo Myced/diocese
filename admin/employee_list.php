@@ -216,7 +216,7 @@ include_once 'includes/navigation.php'; //page navigations.
                           </li>
                           <li class="text-center last-list">
                               <span>
-                                  <a href="#" class="btn btn-primary">
+                                  <a href="edit_profile.php?matricule=<?php echo $row['matricule']; ?>" class="btn btn-primary">
                                   <i class="fa fa-pencil"></i>
                                   Edit
                                     </a>

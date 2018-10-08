@@ -12,7 +12,6 @@
                     <a href="#"><i class="icon-people"></i>Employees</a>
                     <ul class="submenu">
                         <li><a href="add_employee.php">Add New Employee</a></li>
-                        <li><a href="print_biodata.php">Print Biodata</a></li>
                         <li><a href="employee_list.php">Employee List</a></li>
                     </ul>
                 </li>

@@ -1,4 +1,10 @@
 <?php
+/**
+This file is a sample file that will be used to build all other
+pages in this application.
+@param new for new
+**/
+
 //start by including the scripts required for this page
 include_once '../classes/class.Company.php';
 include_once '../classes/class.dbc.php';
@@ -8,21 +14,23 @@ include_once '../classes/class.AccountStatus.php';
 include_once '../classes/class.User.php'; //instantiates a user object;
 include_once '../classes/class.UserLevel.php';
 include_once '../classes/class.Constants.php';
+include_once '../classes/class.Employee.php';
 
 //initialise the database variable to use in the application
 $db = new dbc();
 $dbc = $db->get_instance();
 
-//calculate progress bar completion
-$total = 9; // ther are nine sections to fill
-$current = 4;
+if(isset($_GET['matricule']))
+{
+    $matricule = filter($_GET['matricule']);
+}
+else {
+    $matricule = '';
+}
 
 //page logic
 if(isset($_POST['children']))
 {
-    $matricule = filter($_POST['matricule']);
-    $name = filter($_POST['name']);
-
     $children = filter($_POST['children']);
     $dependents = filter($_POST['dependents']);
     $adopted = filter($_POST['adopted']);
@@ -38,13 +46,9 @@ if(isset($_POST['children']))
 
     $success = "Family Information saved";
 }
-else {
-    $name = "";
-    $matricule = "";
-}
 
-//calculate percentage
-$percentage = ceil( ($current / $total) * 100 );
+$employee = new Employee($matricule);
+
 
 //then include static html
 include_once 'includes/head.php';
@@ -70,82 +74,52 @@ include_once 'includes/navigation.php'; //page navigations.
               <div class="col-md-12">
                   <div class="card-box">
                       <h2 class="page-header">
-                          Add New Employee
+                          Edit Employee Information
                       </h2>
 
-                      <br>
-                      <div class="row">
-                          <div class="col-md-12">
-                              <p><?php echo $percentage . '%'; ?> Complete</p>
-                              <div class="progress active">
-                                  <div class="progress-bar progress-bar-primary progress-bar-striped"
-                                  role="progressbar" aria-valuenow="<?php echo $percentage; ?>" aria-valuemin="0"
-                                  aria-valuemax="100" style="width: <?php echo $percentage; ?>%">
-                                      <span class="sr-only"><?php echo $percentage; ?>% Complete</span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
 
                       <br>
                       <div class="row">
                           <div class="col-md-7">
                               <h3 class="page-header">
                                   <?php
-                                  echo $name . ' (' . $matricule . ')';
+                                  echo $employee->name . ' (' . $employee->matricule . ')';
                                    ?>
                               </h3>
                           </div>
                       </div>
 
-                      <form class="form-horizontal" action="add_school_information.php" method="post">
+                      <form class="form-horizontal" action="" method="post">
                           <div class="row">
                               <div class="col-md-12">
-                                  <h3 class="page-header">In Case of Emergency</h3>
+                                  <h3 class="page-header">Family Status</h3>
 
-                                  <input type="hidden" name="matricule" value="<?php echo $matricule; ?>">
-                                  <input type="hidden" name="name" value="<?php echo $name; ?>">
 
                                   <div class="row">
                                       <div class="col-md-6">
 
+
                                           <div class="form-group row">
-                                              <label for="" class="col-sm-4 col-form-label">
-                                                  Person to Contact:
-                                                  <span class="required">*</span>
-                                              </label>
+                                              <label for="" class="col-sm-4 col-form-label">No of Children: </label>
                                               <div class="col-sm-8">
-                                                  <input type="text" name="ice_name" class="form-control"
-                                                  placeholder="Name of person " required>
+                                                  <input type="text" name="children" class="form-control"
+                                                  placeholder="Number of Children" value="<?php echo $employee->children; ?>">
                                               </div>
                                           </div>
 
                                           <div class="form-group row">
-                                              <label for="" class="col-sm-4 col-form-label">Relationship: </label>
+                                              <label for="" class="col-sm-4 col-form-label">No of Dependents: </label>
                                               <div class="col-sm-8">
-                                                  <input type="text" name="ice_relation" class="form-control"
-                                                  placeholder="Brother">
+                                                  <input type="text" name="dependents" class="form-control"
+                                                  placeholder="No of Dependents" value="<?php echo $employee->dependents; ?>">
                                               </div>
                                           </div>
 
                                           <div class="form-group row">
-                                              <label for="" class="col-sm-4 col-form-label">
-                                                  Telephone 1:
-                                                  <span class="required">*</span>
-                                              </label>
+                                              <label for="" class="col-sm-4 col-form-label">No of Adopted Children: </label>
                                               <div class="col-sm-8">
-                                                  <input type="text" name="ice_tel1" class="form-control"
-                                                  placeholder="" required>
-                                              </div>
-                                          </div>
-
-                                          <div class="form-group row">
-                                              <label for="" class="col-sm-4 col-form-label">
-                                                  Telephone 2:
-                                              </label>
-                                              <div class="col-sm-8">
-                                                  <input type="text" name="ice_tel2" class="form-control"
-                                                  placeholder="">
+                                                  <input type="text" name="adopted" class="form-control"
+                                                  placeholder="No of Adopted" value="<?php echo $employee->adopted; ?>">
                                               </div>
                                           </div>
 
@@ -162,17 +136,42 @@ include_once 'includes/navigation.php'; //page navigations.
                           </div>
 
                           <div class="row">
-                              <div class="col-md-9">
-
+                              <div class="col-md-12">
+                                  <div class="text-center">
+                                      <button type="submit" name="add" class="btn btn-primary">
+                                          <i class="fa fa-save"></i>
+                                          Save Changes
+                                      </button>
+                                  </div>
                               </div>
 
-                              <div class="col-md3">
-                                  <button type="submit" name="add_first" class="btn btn-primary">
-                                      Next
-                                      <i class="fa fa-chevron-right"></i>
-                                  </button>
+                          </div>
+                          <br>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="text-center">
+                                      <a href="edit_profile.php?matricule=<?php echo $matricule; ?>"
+                                          class="btn btn-warning">
+                                          <i class="fa fa-user"></i>
+                                          Edit Profile
+                                      </a>
+
+                                      <a href="employee_details.php?matricule=<?php echo $matricule; ?>"
+                                          class="btn btn-info">
+                                          <i class="fa fa-list-alt"></i>
+                                          Employee Details
+                                      </a>
+
+                                      <a href="employee_list.php"
+                                          class="btn btn-info">
+                                          <i class="fa fa-list"></i>
+                                          Employee List
+                                      </a>
+                                  </div>
                               </div>
                           </div>
+
                       </form>
                   </div>
               </div>

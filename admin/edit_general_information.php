@@ -9,6 +9,7 @@ include_once '../classes/class.AccountStatus.php';
 include_once '../classes/class.User.php'; //instantiates a user object;
 include_once '../classes/class.UserLevel.php';
 include_once '../classes/class.Constants.php';
+include_once '../classes/class.Employee.php';
 
 //initialise the database variable to use in the application
 $db = new dbc();
@@ -20,6 +21,61 @@ $current = 0;
 
 //calculate percentage
 $percentage = ceil( ($current / $total) * 100 );
+
+//edit here
+if(isset($_GET['matricule']))
+{
+    $matricule = filter($_GET['matricule']);
+}
+else {
+    $matricule = '';
+}
+
+if(isset($_POST['prefix']))
+{
+    //form has been submitted
+    $prefix = filter($_POST['prefix']);
+    $otherPrefix = filter($_POST['other']);
+    $fname = filter($_POST['fname']);
+    $mname = filter($_POST['mname']);
+    $lname = filter($_POST['lname']);
+    $oname = filter($_POST['oname']);
+    $sex = filter($_POST['sex']);
+    $tel = filter($_POST['tel']);
+    $email = filter($_POST['email']);
+    $nationality = filter($_POST['nationality']);
+    $empDay = filter($_POST['emp_day']);
+    $empMonth = filter($_POST['emp_month']);
+    $empYear = filter($_POST['emp_year']);
+
+    //derived variables
+    $empDate = $empDay . '/' . $empMonth . '/' . $empYear;
+    $name = $fname . ' ' . $mname . ' ' . $lname . ' ' . $oname;
+
+    if($prefix == "other")
+    {
+        $prefix = $otherPrefix;
+    }
+
+    //save to the database
+    $query = "UPDATE  `employees` SET
+             `fname` ='$name', `f_name` ='$fname', `m_name` = '$mname',
+             `l_name` = '$lname', `o_name` = '$oname',
+             `prefix` = '$prefix', `sex` = '$sex', `contact` = '$tel',
+             `email` = '$email', `nationality` = '$nationality',
+             `entry_day` = '$empDay', `entry_month` = '$empMonth', `entry_year` = '$empYear'
+
+             WHERE `matricule` = '$matricule'
+    ";
+
+    $result = mysqli_query($dbc, $query)
+        or die("Error");
+
+    $success = 'General Information Updated';
+}
+
+//get the employee details
+$employee = new Employee($matricule);
 
 //then include static html
 include_once 'includes/head.php';
@@ -45,24 +101,10 @@ include_once 'includes/navigation.php'; //page navigations.
               <div class="col-md-12">
                   <div class="card-box">
                       <h2 class="page-header">
-                          Add New Employee
+                          Edit Employee
                       </h2>
 
-                      <br>
-                      <div class="row">
-                          <div class="col-md-12">
-                              <p><?php echo $percentage . '%'; ?> Complete</p>
-                              <div class="progress active">
-                                  <div class="progress-bar progress-bar-primary progress-bar-striped"
-                                  role="progressbar" aria-valuenow="<?php echo $percentage; ?>" aria-valuemin="0"
-                                  aria-valuemax="100" style="width: <?php echo $percentage; ?>%">
-                                      <span class="sr-only"><?php echo $percentage; ?>% Complete</span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-
-                      <form class="form-horizontal" action="add_personnal_information.php" method="post">
+                      <form class="form-horizontal" action="" method="post">
                           <div class="row">
                               <div class="col-md-12">
                                   <h3 class="page-header">General Information</h3>
@@ -74,16 +116,16 @@ include_once 'includes/navigation.php'; //page navigations.
                                               <div class="col-sm-8">
                                                   <select name="prefix" id="prefix" class="form-control">
                                                     <option value="--">----</option>
-                                                    <option value="Mr"> Mr. </option>
-                                                    <option value="Mrs"> Mrs. </option>
-                                                    <option value="Miss"> Miss </option>
-                                                    <option value="Dr"> Dr. </option>
-                                                    <option value="Msgr. "> Msgr. </option>
-                                                    <option value="Prof. "> Prof. </option>
-                                                    <option value="Rev. Br."> Rev. Br. </option>
-                                                    <option value="Rev. Fr."> Rev. Fr. </option>
-                                                    <option value="Rev. Sr."> Rev. Sr. </option>
-                                                    <option value="other"> Other </option>
+                                                    <option value="Mr" <?php if($employee->prefix == 'Mr') echo 'selected'; ?> > Mr. </option>
+                                                    <option value="Mrs" <?php if($employee->prefix == 'Mrs') echo 'selected'; ?> > Mrs. </option>
+                                                    <option value="Miss" <?php if($employee->prefix == 'Miss') echo 'selected'; ?> > Miss </option>
+                                                    <option value="Dr" <?php if($employee->prefix == 'Dr') echo 'selected'; ?> > Dr. </option>
+                                                    <option value="Msgr." <?php if($employee->prefix == 'Msgr') echo 'selected'; ?> > Msgr. </option>
+                                                    <option value="Prof." <?php if($employee->prefix == 'prof') echo 'selected'; ?> > Prof. </option>
+                                                    <option value="Rev. Br." <?php if($employee->prefix == 'Rev. Br.') echo 'selected'; ?> > Rev. Br. </option>
+                                                    <option value="Rev. Fr." <?php if($employee->prefix == 'Rev. Fr.') echo 'selected'; ?> > Rev. Fr. </option>
+                                                    <option value="Rev. Sr." <?php if($employee->prefix == 'Rev. Sr') echo 'selected'; ?> > Rev. Sr. </option>
+                                                    <option value="other" <?php if($employee->prefix == 'other') echo 'selected'; ?> > Other </option>
                                                 </select>
                                               </div>
                                           </div>
@@ -102,7 +144,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                   <span class="required">*</span>
                                               </label>
                                               <div class="col-sm-8">
-                                                  <input type="text" name="fname" required
+                                                  <input type="text" name="fname" required value="<?php echo $employee->fname; ?>"
                                                   class="form-control" placeholder="First Name">
                                               </div>
                                           </div>
@@ -112,7 +154,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                   Middle Name:
                                               </label>
                                               <div class="col-sm-8">
-                                                  <input type="text" name="mname"
+                                                  <input type="text" name="mname" value="<?php echo $employee->mname; ?>"
                                                   class="form-control" placeholder="Middle Name">
                                               </div>
                                           </div>
@@ -122,7 +164,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                   Last Name:
                                               </label>
                                               <div class="col-sm-8">
-                                                  <input type="text" name="lname"
+                                                  <input type="text" name="lname" value="<?php echo $employee->lname; ?>"
                                                   class="form-control" placeholder="Last Name">
                                               </div>
                                           </div>
@@ -132,7 +174,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                   Other Name:
                                               </label>
                                               <div class="col-sm-8">
-                                                  <input type="text" name="oname"
+                                                  <input type="text" name="oname" value="<?php echo $employee->oname; ?>"
                                                   class="form-control" placeholder="">
                                               </div>
                                           </div>
@@ -144,8 +186,8 @@ include_once 'includes/navigation.php'; //page navigations.
                                               </label>
                                               <div class="col-sm-8">
                                                   <select class="form-control" name="sex" required>
-                                                      <option value="M">Male</option>
-                                                      <option value="F">Female</option>
+                                                      <option value="M" <?php if($employee->sex == 'M') echo 'selected'; ?> >Male</option>
+                                                      <option value="F" <?php if($employee->sex == 'F') {echo 'selected';} ?> >Female</option>
                                                   </select>
                                               </div>
                                           </div>
@@ -156,7 +198,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                   <span class="required">*</span>
                                               </label>
                                               <div class="col-sm-8">
-                                                  <input type="text" name="tel" required
+                                                  <input type="text" name="tel" required value="<?php echo $employee->tel; ?>"
                                                   class="form-control" placeholder="677 895 895">
                                               </div>
                                           </div>
@@ -166,7 +208,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                           <div class="form-group row">
                                               <label for="" class="col-sm-4 col-form-label">Email: </label>
                                               <div class="col-sm-8">
-                                                  <input type="text" name="email" value=""
+                                                  <input type="text" name="email" value="<?php echo $employee->email; ?>"
                                                   class="form-control" placeholder="Email">
                                               </div>
                                           </div>
@@ -175,9 +217,9 @@ include_once 'includes/navigation.php'; //page navigations.
                                               <label for="" class="col-sm-4 col-form-label">Nationality: </label>
                                               <div class="col-sm-8">
                                                   <select class="form-control" name="nationality">
-                                                      <option value="Cameroonian">Cameroonian</option>
-                                                      <option value="Nigerian">Nigerian</option>
-                                                      <option value="other">Other</option>
+                                                      <option value="Cameroonian" <?php if($employee->nationality == 'Cameroonian') { echo 'selected'; } ?> >Cameroonian</option>
+                                                      <option value="Nigerian" <?php if($employee->nationality == 'Nigerian') { echo 'selected'; } ?> >Nigerian</option>
+                                                      <option value="other" <?php if($employee->nationality == 'other') { echo 'selected'; } ?> >Other</option>
                                                   </select>
                                               </div>
                                           </div>
@@ -194,7 +236,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                               {
                                                                   ?>
                                                             <option value="<?php echo $i; ?>"
-                                                            >
+                                                                <?php if($employee->empDay == $i) { echo 'selected'; } ?>    >
                                                             <?php echo $i; ?>
                                                             </option>
                                                                   <?php
@@ -211,7 +253,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                               {
                                                                   ?>
                                                             <option value="<?php echo $i; ?>"
-                                                            >
+                                                                <?php if($employee->empMonth == $i) { echo 'selected'; } ?>    >
                                                             <?php echo get_month($i); ?>
                                                             </option>
                                                                   <?php
@@ -229,7 +271,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                               {
                                                                   ?>
                                                             <option value="<?php echo $i; ?>"
-                                                            >
+                                                                <?php if($employee->empYear == $i) { echo 'selected'; } ?>    >
                                                             <?php echo $i; ?>
                                                             </option>
                                                                   <?php
@@ -246,15 +288,38 @@ include_once 'includes/navigation.php'; //page navigations.
                           </div>
 
                           <div class="row">
-                              <div class="col-md-9">
-
+                              <div class="col-md-12">
+                                  <div class="text-center">
+                                      <button type="submit" name="add_first" class="btn btn-primary">
+                                          <i class="fa fa-save"></i>
+                                          Save Changes
+                                      </button>
+                                  </div>
                               </div>
+                          </div>
 
-                              <div class="col-md3">
-                                  <button type="submit" name="add_first" class="btn btn-primary">
-                                      Next
-                                      <i class="fa fa-chevron-right"></i>
-                                  </button>
+                          <br>
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="text-center">
+                                      <a href="edit_profile.php?matricule=<?php echo $matricule; ?>"
+                                          class="btn btn-warning">
+                                          <i class="fa fa-user"></i>
+                                          Edit Profile
+                                      </a>
+
+                                      <a href="employee_details.php?matricule=<?php echo $matricule; ?>"
+                                          class="btn btn-info">
+                                          <i class="fa fa-list-alt"></i>
+                                          Employee Details
+                                      </a>
+
+                                      <a href="employee_list.php"
+                                          class="btn btn-info">
+                                          <i class="fa fa-list"></i>
+                                          Employee List
+                                      </a>
+                                  </div>
                               </div>
                           </div>
                       </form>
