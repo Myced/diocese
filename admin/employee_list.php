@@ -13,6 +13,84 @@ include_once '../classes/class.Constants.php';
 $db = new dbc();
 $dbc = $db->get_instance();
 
+//perform filtering here
+if(isset($_GET['filter']))
+{
+
+}
+else {
+    //pageinate
+    //query initialisation
+    $results_per_page = 3; //number of results to show on a sigle page
+
+    //data manipulation
+    if(isset($_GET['page']))
+    {
+        //get the page number
+        $page_number = filter($_GET['page']);
+
+        //Variable to maintain countring
+        $inter  = $page_number - 1; //reduces the page numer in order to count
+        $count = (int) ($inter * $results_per_page) + 1;
+    }
+    else
+    {
+        $page_number = 1;
+
+        //Variable to do countring
+        $count = 1;
+    }
+
+    //START OF search results
+    if($page_number < 2)
+    {
+        $start = 0;
+    }
+     else {
+         $start = (($page_number - 1) * ($results_per_page));
+    }
+
+    //total data in the database;
+    $query = "SELECT * from `employees`  ";
+    $result  = mysqli_query($dbc, $query);
+
+    $total = mysqli_num_rows($result);
+
+    if($results_per_page >= 1)
+    {
+
+       $number_of_pages = ceil($total/$results_per_page);
+
+       if($number_of_pages < 1)
+       {
+           $page_count = 1;
+       }
+       else
+       {
+           $page_count = $number_of_pages;
+       }
+
+    }
+    else
+    {
+        $error = "Results Per page Cannot be zero or Less";
+        $page_count = 1;
+    }
+    //end
+    $end = $results_per_page;
+
+    //now if page number is greater that
+    if($page_number > $page_count)
+    {
+        $error = "That Page does not Exist";
+    }
+
+    //do the query here
+    $query = "SELECT * FROM `employees`  ORDER BY `id` DESC LIMIT $start, $end";
+    $result = mysqli_query($dbc, $query)
+            or die("Error");
+}
+
 //functions here
 function getFunction($id)
 {
@@ -102,9 +180,6 @@ if(isset($_GET['matricule']))
     }
 }
 
-$query = "SELECT * FROM `employees` ORDER BY `id` DESC";
-$result = mysqli_query($dbc, $query)
-    or die("Error");
 //then include static html
 include_once 'includes/head.php';
  ?>
@@ -255,6 +330,70 @@ include_once 'includes/navigation.php'; //page navigations.
               }
                ?>
 
+          </div>
+
+          <div class="row">
+              <!-- //page number -->
+              <div class="col-md-12">
+                  <div class="pull-right">
+                      Page <?php echo $page_number; ?>/<?php echo $page_count; ?>
+                  </div>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="pull-right">
+                      <?php
+
+                      //the scrpt name
+                      $script = basename(__FILE__);
+
+                      if($page_count > 1)
+                      {
+                          ?>
+                      <ul class="pagination">
+                          <?php
+                          if($page_number != 1)
+                          {
+                              ?>
+                          <li class="previous">
+                              <a href="<?php echo $script; ?>?page=<?php echo $page_number - 1; ?>" >Prev</a>
+                          </li>
+                              <?php
+                          }
+                          ?>
+                          <?php
+                          for($i = 1; $i <= $page_count; $i++)
+                          {
+                              ?>
+                          <li class="<?php  $i == $page_number ? print 'active' : ''; ?>">
+                              <a href="<?php echo $script; ?>?page=<?php echo $i; ?>"  >
+                                  <?php echo $i; ?>
+                              </a>
+                          </li>
+                              <?php
+                          }
+                          ?>
+
+                          <?php
+                          //If the pages and page number are not the same then show the next button
+                          if($page_number != $page_count)
+                          {
+                              ?>
+                          <li class="next">
+                              <a href="<?php echo $script; ?>?page=<?php echo $page_number + 1; ?>"> Next</a>
+                          </li>
+                              <?php
+                          }
+                          ?>
+
+                      </ul>
+                          <?php
+                      }
+                      ?>
+                  </div>
+              </div>
           </div>
 
       </div> <!-- end container -->
