@@ -1,10 +1,4 @@
 <?php
-/**
-This file is a sample file that will be used to build all other
-pages in this application.
-@param new for new
-**/
-
 //start by including the scripts required for this page
 include_once '../classes/class.Company.php';
 include_once '../classes/class.dbc.php';
@@ -19,12 +13,6 @@ include_once '../classes/class.Constants.php';
 $db = new dbc();
 $dbc = $db->get_instance();
 
-/**
-To show an error, just put the error message in a variable $error
-Same goes too for a success message ($success)
-=> eg $error = "Could not log in user"
-    $success = "You activated your account";
-**/
 
 //then include static html
 include_once 'includes/head.php';

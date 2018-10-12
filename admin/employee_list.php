@@ -16,12 +16,20 @@ $dbc = $db->get_instance();
 //perform filtering here
 if(isset($_GET['filter']))
 {
+    $school = filter($_GET['school']);
 
+    //filter the input
+    $query = "SELECT * FROM `employees` WHERE `school_id` = '$school' ";
+    $result = mysqli_query($dbc, $query)
+        or die('Error');
+
+    $page_number  = 1;
+    $page_count = 1;
 }
 else {
     //pageinate
     //query initialisation
-    $results_per_page = 3; //number of results to show on a sigle page
+    $results_per_page = 30; //number of results to show on a sigle page
 
     //data manipulation
     if(isset($_GET['page']))
@@ -213,6 +221,53 @@ include_once 'includes/navigation.php'; //page navigations.
                       <h2 class="page-header">
                           Filter
                       </h2>
+
+                      <form class="" action="" method="get">
+                          <h3>Filter</h3>
+
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <div class="form-group row">
+                                      <label for="" class="col-sm-4 col-form-label">
+                                          School:
+                                          <span class="required">*</span>
+                                      </label>
+                                      <div class="col-sm-8">
+                                          <select class="form-control" name="school">
+                                              <option value="">--SELECT SCHOOL--</option>
+                                              <?php
+                                              $query = "SELECT * FROM `schools` ORDER BY `name` ASC ";
+                                              $res = mysqli_query($dbc, $query)
+                                                or die("Error");
+
+                                                while($row = mysqli_fetch_array($res))
+                                                {
+                                                    ?>
+                                                <option value="<?php echo $row['id']; ?>">
+                                                    <?php echo $row['name']; ?>
+                                                </option>
+                                                    <?php
+                                                }
+                                               ?>
+                                          </select>
+                                      </div>
+                                  </div>
+
+
+
+                              </div>
+
+                              <div class="col-md-6">
+                                  <div class="form-group row">
+
+                                      <div class="col-sm-8">
+                                          <input type="submit" name="filter" value="Filter"
+                                           class="btn btn-success">
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </form>
                   </div>
               </div>
           </div>

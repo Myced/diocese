@@ -12,6 +12,11 @@ th
     font-weight: bold !important;
 }
 
+dd, dt
+{
+    font-size: 16px;
+}
+
 .company
 {
     color: #000;

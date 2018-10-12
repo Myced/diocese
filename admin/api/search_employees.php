@@ -108,7 +108,7 @@ else {
                     </li>';
         $output .= '<li class="text-center last-list">
                         <span>
-                            <a href="#" class="btn btn-primary edit">
+                            <a href="edit_profile.php?matricule=' . $row['matricule'] . '" class="btn btn-primary edit">
                             <i class="fa fa-pencil"></i>
                             Edit
                               </a>
