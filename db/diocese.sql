@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 08, 2018 at 11:56 
+-- Generation Time: Oct 16, 2018 at 12:41 
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.24
 
@@ -19,6 +19,24 @@ SET time_zone = "+00:00";
 --
 -- Database: `diocese`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `academic_year`
+--
+
+CREATE TABLE `academic_year` (
+  `id` int(5) NOT NULL,
+  `year` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `academic_year`
+--
+
+INSERT INTO `academic_year` (`id`, `year`) VALUES
+(1, '2018/2019');
 
 -- --------------------------------------------------------
 
@@ -94,11 +112,267 @@ INSERT INTO `employees` (`id`, `profile`, `entry_day`, `entry_month`, `p_issue`,
 (11, '', '5', '8', '', 'Cedric Tifuh Do Ndi', 'CES-07-P0003', '', '2007', '', '', '', '', '', '', '', '', '', '50 1552 032', '', '', '', '', '', '', '', 'M', '', '', '', '', '', '', 'Miss', '', '', '', '', '', '', 'Cedric', 'Tifuh', '', '', '', 'Do', 'Ndi', '', '', '', 'Cameroonian', '', 0, 'gmail@gmail.com', '', ''),
 (2, '', '3', '3', '', 'Janem Ambeng  ', 'CES-10P-0002', '3', '2010', '', '', '', '', '', '', '', '', '', '650232565', '', '', '', '', '', '', '', 'M', '', '', '', '', '', '', 'Mrs', '', '', '', '', '', '', 'Janem', 'Ambeng', '', '', '', '', '', '', '', '', 'Cameroonian', '', 0, 'myemai@yahoo.com', '', ''),
 (3, 'uploads/employees/documents/06102018071003add contact.png', '4', '9', '', 'Jane Andang Tifuh ', 'CES-08-P0001', '32', '2008', '15', '9', '1983', 'Non Clergy', '', '', '', '2', '', '690 265 0896', '2', '', '', '', '', '', '', 'M', '', '', '', '4', '', '', 'Miss', 'Baptised', '2', '', '', '', '', 'Jane', 'Andang', '14/6/1980', '13/8/1980', 'SW20', 'Tifuh', '', '6', '5', 'Muyuka', 'Nigerian', '', 0, 'mail@mailinator.com', 'Teaching', 'Off Campus'),
-(9, '', '5', '8', '', 'Cedric Tifuh Do Ndi', 'CES-07-P0001', '', '2007', '', '', '', '', '', '', '', '', '', '50 1552 032', '', '', '', '', '', '', '', 'M', '', '', '', '', '', '', 'Miss', '', '', '', '', '', '', 'Cedric', 'Tifuh', '', '', '', 'Do', 'Ndi', '', '', '', 'Cameroonian', '', 0, 'gmail@gmail.com', '', ''),
+(9, '', '5', '8', '', 'Cedric Tifuh Do Ndi', 'CES-07-P0001', '26', '2007', '', '', '', '', '', '', '', '', '', '50 1552 032', '1', '', '', '', '', '', '', 'M', '', '', '', '5', '', '', 'Miss', '', '2', '', '', '', '', 'Cedric', 'Tifuh', '', '', '', 'Do', 'Ndi', '0', '', '', 'Cameroonian', '', 0, 'gmail@gmail.com', 'work', 'On Campus'),
 (8, '', '--', '--', '', 'dfdf   ', 'CES--P0001', '14', '--', '--', '--', '--', 'Non Clergy', '', '', '', '', '', 'dfdfd', '15', '', '', '', '', '', '', 'M', '', '', '', '', '', '', '--', '', '1', '', '', '', '', 'dfdf', '', '--/--/--', '--/--/--', '', '', '', '', '', '', 'Cameroonian', '', 0, '', '', 'On Campus'),
-(5, '', '8', '9', '', 'Joyce Yasho Ntuba ', 'CES-10-P0003', '', '2010', '', '', '', '', '', '', '', '', '', '669 125 456', '', '', '', '', '', '', '', 'F', '', '', '', '', '', '', 'Mrs', '', '', '', '', '', '', 'Joyce', 'Yasho', '', '', '', 'Ntuba', '', '', '', '', 'Cameroonian', '', 0, 'ma@eru.com', '', ''),
+(5, '', '8', '9', '', 'Joyce Yasho Ntuba ', 'CES-10-P0003', '12', '2010', '', '', '', '', '', '', '', '', '', '669 125 456', '', '', '', '', '', '', '', 'F', '', '', '', '', '', '', 'Mrs', '', '2', '', '', '', '', 'Joyce', 'Yasho', '', '', '', 'Ntuba', '', '', '', '', 'Cameroonian', '', 0, 'ma@eru.com', 'nothing', 'On Campus'),
 (6, 'uploads/employees/documents/06102018091018kenny.JPG', '6', '8', '', 'JJ Okocha  ', 'CES-09-P0001', '12', '2009', '17', '6', '1994', 'Clergy &amp; Religious', '', '', '', '2', '', '210121255', '10', '', '', '', '', '', '', 'M', '', '455546', '', '5', '', '', 'Mr', 'Not Baptised', '1', '', '', '', '', 'JJ', 'Okocha', '14/3/1984', '16/8/1985', 'SW21', '', '', '', '', 'Ason', 'Cameroonian', '', 0, 'client@gmail.com', 'Driving', 'On Campus'),
 (12, 'uploads/employees/documents/07102018111034asibo fashio.png', '18', '11', '', 'INTERNET g FREED  GOOD', 'CES-07-P0004', '10', '2007', '16', '10', '2012', 'Clergy &amp; Religious', '', '', '', '4', '', '855 4522 566', '6', '', '', '', '', '', '', 'M', '', '445580215', '', '5', '', '', 'Miss', 'Not Baptised', '5', '', '', '', '', 'INTERNET g', 'FREED', '14/4/1984', '17/6/2000', '`dfjdkfj', '', 'GOOD', '02', '7', 'toipi', 'Nigerian', '', 0, 'mail@mail.com45', 'Workshop ty', 'On Campus');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `evaluation_categories`
+--
+
+CREATE TABLE `evaluation_categories` (
+  `id` int(10) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `evaluation_categories`
+--
+
+INSERT INTO `evaluation_categories` (`id`, `name`, `date_added`) VALUES
+(1, 'Punctuality', '2018-10-13 10:57:34'),
+(2, 'Pedagogy (Teachers only)', '2018-10-13 10:57:34'),
+(3, 'Team Spirit', '2018-10-13 10:58:04'),
+(4, 'Respect of Hierarchy', '2018-10-13 10:58:04'),
+(5, 'Job Focus Skills', '2018-10-13 10:58:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `evaluation_category_responses`
+--
+
+CREATE TABLE `evaluation_category_responses` (
+  `id` int(255) NOT NULL,
+  `matricule` varchar(60) NOT NULL,
+  `category_id` varchar(20) NOT NULL,
+  `total` varchar(60) NOT NULL,
+  `year` varchar(30) NOT NULL,
+  `term` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `evaluation_category_responses`
+--
+
+INSERT INTO `evaluation_category_responses` (`id`, `matricule`, `category_id`, `total`, `year`, `term`) VALUES
+(1, 'CES-09-P0001', '1', '15', '2018/2019', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `evaluation_essays`
+--
+
+CREATE TABLE `evaluation_essays` (
+  `id` int(100) NOT NULL,
+  `matricule` varchar(60) NOT NULL,
+  `training_needed` text NOT NULL,
+  `justification` text NOT NULL,
+  `exceptional_work` text NOT NULL,
+  `general_remark` text NOT NULL,
+  `term` varchar(10) NOT NULL,
+  `year` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `evaluation_essays`
+--
+
+INSERT INTO `evaluation_essays` (`id`, `matricule`, `training_needed`, `justification`, `exceptional_work`, `general_remark`, `term`, `year`) VALUES
+(1, 'CES-07-P0004', 'Just come to church', 'Needed by the pastor', 'Good work', 'go to chuch', '1', '2018/2019'),
+(2, 'CES-07-P0004', 'Nothing Please', '', '', '', '2', '2018/2019'),
+(3, 'CES-10-P0003', '', '', '', '', '1', '2018/2019'),
+(4, 'CES-10-P0003', '', '', '', '', '2', '2018/2019'),
+(5, 'CES-10P-0002', '', '', '', '', '2', '2018/2019');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `evaluation_questions`
+--
+
+CREATE TABLE `evaluation_questions` (
+  `id` int(200) NOT NULL,
+  `category_id` varchar(50) NOT NULL,
+  `question` text NOT NULL,
+  `time_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `evaluation_questions`
+--
+
+INSERT INTO `evaluation_questions` (`id`, `category_id`, `question`, `time_added`) VALUES
+(2, '1', 'Starting and ending lessons on time (Teachers only)', '2018-10-13 13:28:35'),
+(3, '1', 'Respecting working time', '2018-10-13 13:29:09'),
+(4, '1', 'Respecting meeting time', '2018-10-13 13:29:09'),
+(5, '1', 'Submission of marks and exams on time (Teachers only)', '2018-10-13 13:30:47'),
+(7, '2', 'Preparing lesson notes and visual aids', '2018-10-13 13:31:22'),
+(8, '2', 'Prepares and submits schemes of work', '2018-10-13 13:31:22'),
+(9, '2', 'Creates cordial relationship with students', '2018-10-13 13:31:48'),
+(10, '2', 'Prepares teaching materials that clearly match objectives and scheme', '2018-10-13 13:31:48'),
+(11, '2', 'Engages students in activities that are appropriate', '2018-10-13 13:34:17'),
+(12, '2', 'Demonstrates good grasp of subject matter', '2018-10-13 13:34:17'),
+(13, '2', 'Uses appropriate teaching techniques', '2018-10-13 13:35:13'),
+(15, '3', 'Collaboration with colleagues', '2018-10-13 13:35:40'),
+(16, '3', 'Participation in staff activities', '2018-10-13 13:35:40'),
+(17, '3', 'Performing extra duties as requested', '2018-10-13 13:36:05'),
+(18, '3', 'Contribution of ideas to better school affairs', '2018-10-13 13:36:05'),
+(19, '4', 'Recognise and respect hierarchy', '2018-10-13 13:38:18'),
+(20, '4', 'Perform duties as assigned', '2018-10-13 13:38:18'),
+(21, '5', 'Reports for work regularly', '2018-10-13 13:40:52'),
+(22, '5', 'Expresses himself/herself clearly and is easily understood', '2018-10-13 13:40:52'),
+(23, '5', 'Ability to network with staff and stakeholders', '2018-10-13 13:41:19'),
+(24, '5', 'Duty consciousness', '2018-10-13 13:41:19'),
+(25, '5', 'Is trustworthy', '2018-10-13 13:41:51'),
+(26, '5', 'Demonstrates sound judgement in decision making', '2018-10-13 13:41:51'),
+(27, '5', 'Adheres to the code of ethics and rules of the school', '2018-10-13 13:42:05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `evaluation_responses`
+--
+
+CREATE TABLE `evaluation_responses` (
+  `id` int(255) NOT NULL,
+  `matricule` varchar(100) NOT NULL,
+  `question_id` varchar(50) NOT NULL,
+  `mark` varchar(20) NOT NULL,
+  `year` varchar(30) NOT NULL,
+  `term` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `evaluation_responses`
+--
+
+INSERT INTO `evaluation_responses` (`id`, `matricule`, `question_id`, `mark`, `year`, `term`) VALUES
+(1, 'CES-07-P0004', '3', '1', '2018/2019', 1),
+(2, 'CES-07-P0004', '2', '0', '2018/2019', 1),
+(3, 'CES-07-P0004', '4', '2', '2018/2019', 1),
+(4, 'CES-07-P0004', '5', '3', '2018/2019', 1),
+(5, 'CES-07-P0004', '7', '1', '2018/2019', 1),
+(6, 'CES-07-P0004', '8', '2', '2018/2019', 1),
+(7, 'CES-07-P0004', '9', '3', '2018/2019', 1),
+(8, 'CES-07-P0004', '10', '4', '2018/2019', 1),
+(9, 'CES-07-P0004', '11', '5', '2018/2019', 1),
+(10, 'CES-07-P0004', '12', '5', '2018/2019', 1),
+(11, 'CES-07-P0004', '13', '5', '2018/2019', 1),
+(12, 'CES-07-P0004', '15', '1', '2018/2019', 1),
+(13, 'CES-07-P0004', '16', '2', '2018/2019', 1),
+(14, 'CES-07-P0004', '17', '1', '2018/2019', 1),
+(15, 'CES-07-P0004', '18', '2', '2018/2019', 1),
+(16, 'CES-07-P0004', '2', '1', '2018/2019', 2),
+(17, 'CES-07-P0004', '3', '3', '2018/2019', 2),
+(18, 'CES-07-P0004', '4', '5', '2018/2019', 2),
+(19, 'CES-07-P0004', '5', '5', '2018/2019', 2),
+(20, 'CES-07-P0004', '8', '2', '2018/2019', 2),
+(21, 'CES-07-P0004', '9', '5', '2018/2019', 2),
+(22, 'CES-07-P0004', '10', '4', '2018/2019', 2),
+(23, 'CES-07-P0004', '11', '5', '2018/2019', 2),
+(24, 'CES-07-P0004', '12', '5', '2018/2019', 2),
+(25, 'CES-07-P0004', '13', '5', '2018/2019', 2),
+(26, 'CES-07-P0004', '15', '4', '2018/2019', 2),
+(27, 'CES-07-P0004', '16', '5', '2018/2019', 2),
+(28, 'CES-07-P0004', '17', '4', '2018/2019', 2),
+(29, 'CES-07-P0004', '18', '5', '2018/2019', 2),
+(30, 'CES-07-P0004', '19', '5', '2018/2019', 2),
+(31, 'CES-07-P0004', '20', '5', '2018/2019', 2),
+(32, 'CES-07-P0004', '21', '5', '2018/2019', 2),
+(33, 'CES-07-P0004', '22', '5', '2018/2019', 2),
+(34, 'CES-07-P0004', '23', '5', '2018/2019', 2),
+(35, 'CES-07-P0004', '24', '5', '2018/2019', 2),
+(36, 'CES-07-P0004', '25', '5', '2018/2019', 2),
+(37, 'CES-07-P0004', '26', '5', '2018/2019', 2),
+(38, 'CES-07-P0004', '27', '5', '2018/2019', 2),
+(39, 'CES-10-P0003', '2', '1', '2018/2019', 1),
+(40, 'CES-10-P0003', '3', '5', '2018/2019', 1),
+(41, 'CES-10-P0003', '4', '5', '2018/2019', 1),
+(42, 'CES-10-P0003', '5', '5', '2018/2019', 1),
+(43, 'CES-10-P0003', '7', '5', '2018/2019', 1),
+(44, 'CES-10-P0003', '8', '4', '2018/2019', 1),
+(45, 'CES-10-P0003', '9', '5', '2018/2019', 1),
+(46, 'CES-10-P0003', '10', '4', '2018/2019', 1),
+(47, 'CES-10-P0003', '11', '4', '2018/2019', 1),
+(48, 'CES-10-P0003', '12', '5', '2018/2019', 1),
+(49, 'CES-10-P0003', '13', '3', '2018/2019', 1),
+(50, 'CES-10-P0003', '15', '4', '2018/2019', 1),
+(51, 'CES-10-P0003', '16', '4', '2018/2019', 1),
+(52, 'CES-10-P0003', '17', '4', '2018/2019', 1),
+(53, 'CES-10-P0003', '18', '5', '2018/2019', 1),
+(54, 'CES-10-P0003', '19', '5', '2018/2019', 1),
+(55, 'CES-10-P0003', '20', '5', '2018/2019', 1),
+(56, 'CES-10-P0003', '21', '3', '2018/2019', 1),
+(57, 'CES-10-P0003', '22', '3', '2018/2019', 1),
+(58, 'CES-10-P0003', '23', '3', '2018/2019', 1),
+(59, 'CES-10-P0003', '24', '4', '2018/2019', 1),
+(60, 'CES-10-P0003', '25', '5', '2018/2019', 1),
+(61, 'CES-10-P0003', '26', '5', '2018/2019', 1),
+(62, 'CES-10-P0003', '27', '5', '2018/2019', 1),
+(63, 'CES-10-P0003', '2', '1', '2018/2019', 2),
+(64, 'CES-10-P0003', '3', '2', '2018/2019', 2),
+(65, 'CES-10-P0003', '4', '3', '2018/2019', 2),
+(66, 'CES-10-P0003', '5', '4', '2018/2019', 2),
+(67, 'CES-10-P0003', '7', '5', '2018/2019', 2),
+(68, 'CES-10-P0003', '8', '4', '2018/2019', 2),
+(69, 'CES-10-P0003', '9', '3', '2018/2019', 2),
+(70, 'CES-10-P0003', '10', '2', '2018/2019', 2),
+(71, 'CES-10-P0003', '11', '1', '2018/2019', 2),
+(72, 'CES-10-P0003', '12', '2', '2018/2019', 2),
+(73, 'CES-10-P0003', '13', '3', '2018/2019', 2),
+(74, 'CES-10-P0003', '15', '5', '2018/2019', 2),
+(75, 'CES-10-P0003', '16', '4', '2018/2019', 2),
+(76, 'CES-10-P0003', '17', '3', '2018/2019', 2),
+(77, 'CES-10-P0003', '18', '2', '2018/2019', 2),
+(78, 'CES-10-P0003', '19', '5', '2018/2019', 2),
+(79, 'CES-10-P0003', '20', '5', '2018/2019', 2),
+(80, 'CES-10-P0003', '21', '5', '2018/2019', 2),
+(81, 'CES-10-P0003', '22', '4', '2018/2019', 2),
+(82, 'CES-10-P0003', '23', '3', '2018/2019', 2),
+(83, 'CES-10-P0003', '24', '2', '2018/2019', 2),
+(84, 'CES-10-P0003', '25', '1', '2018/2019', 2),
+(85, 'CES-10-P0003', '26', '0', '2018/2019', 2),
+(86, 'CES-10-P0003', '27', '1', '2018/2019', 2),
+(87, 'CES-10P-0002', '2', '5', '2018/2019', 2),
+(88, 'CES-10P-0002', '3', '5', '2018/2019', 2),
+(89, 'CES-10P-0002', '4', '5', '2018/2019', 2),
+(90, 'CES-10P-0002', '5', '5', '2018/2019', 2),
+(91, 'CES-10P-0002', '7', '4', '2018/2019', 2),
+(92, 'CES-10P-0002', '8', '4', '2018/2019', 2),
+(93, 'CES-10P-0002', '9', '5', '2018/2019', 2),
+(94, 'CES-10P-0002', '10', '5', '2018/2019', 2),
+(95, 'CES-10P-0002', '11', '5', '2018/2019', 2),
+(96, 'CES-10P-0002', '12', '5', '2018/2019', 2),
+(97, 'CES-10P-0002', '13', '5', '2018/2019', 2),
+(98, 'CES-10P-0002', '15', '5', '2018/2019', 2),
+(99, 'CES-10P-0002', '16', '5', '2018/2019', 2),
+(100, 'CES-10P-0002', '17', '5', '2018/2019', 2),
+(101, 'CES-10P-0002', '18', '5', '2018/2019', 2),
+(102, 'CES-10P-0002', '19', '5', '2018/2019', 2),
+(103, 'CES-10P-0002', '20', '5', '2018/2019', 2),
+(104, 'CES-10P-0002', '21', '5', '2018/2019', 2),
+(105, 'CES-10P-0002', '22', '5', '2018/2019', 2),
+(106, 'CES-10P-0002', '23', '5', '2018/2019', 2),
+(107, 'CES-10P-0002', '24', '5', '2018/2019', 2),
+(108, 'CES-10P-0002', '25', '5', '2018/2019', 2),
+(109, 'CES-10P-0002', '26', '5', '2018/2019', 2),
+(110, 'CES-10P-0002', '27', '5', '2018/2019', 2),
+(111, 'CES-07-P0004', '19', '4', '2018/2019', 1),
+(112, 'CES-07-P0004', '20', '4', '2018/2019', 1),
+(113, 'CES-07-P0004', '21', '5', '2018/2019', 1),
+(114, 'CES-07-P0004', '22', '5', '2018/2019', 1),
+(115, 'CES-07-P0004', '23', '4', '2018/2019', 1),
+(116, 'CES-07-P0004', '24', '5', '2018/2019', 1),
+(117, 'CES-07-P0004', '25', '5', '2018/2019', 1),
+(118, 'CES-07-P0004', '26', '5', '2018/2019', 1),
+(119, 'CES-07-P0004', '27', '5', '2018/2019', 1);
 
 -- --------------------------------------------------------
 
@@ -186,6 +460,40 @@ INSERT INTO `functions` (`id`, `function`, `extra`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `leave_requests`
+--
+
+CREATE TABLE `leave_requests` (
+  `id` int(30) NOT NULL,
+  `code` varchar(20) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `matricule` varchar(200) NOT NULL,
+  `function` varchar(100) NOT NULL,
+  `type` varchar(60) NOT NULL,
+  `start_date` varchar(30) NOT NULL,
+  `end_date` varchar(30) NOT NULL,
+  `days` varchar(30) NOT NULL,
+  `backup` varchar(200) NOT NULL,
+  `backup_matricule` varchar(100) NOT NULL,
+  `locked` tinyint(1) NOT NULL DEFAULT '0',
+  `remark` text NOT NULL,
+  `status` varchar(50) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `leave_requests`
+--
+
+INSERT INTO `leave_requests` (`id`, `code`, `name`, `matricule`, `function`, `type`, `start_date`, `end_date`, `days`, `backup`, `backup_matricule`, `locked`, `remark`, `status`, `date_added`) VALUES
+(1, '', 'JJ Okocha', 'CES-09-P0001', 'Driver', 'Sick Leave', '30/10/2018', '09/11/2018', '11', 'INTERNET g FREED  GOOD', 'CES-07-P0004', 1, 'Ok', 'Absent', '2018-10-12 20:16:44'),
+(2, '', 'Cedric Tifuh Do Ndi', 'CES-07-P0002', '', 'Annual Leave', '09/10/2018', '25/10/2018', '7', 'Janem Ambeng', 'CES-10P-0002', 1, 'Late', 'Red Flag', '2018-10-12 20:17:15'),
+(3, '', 'INTERNET g FREED  GOOD', 'CES-07-P0004', 'Cashier', 'Permission', '23/10/2018', '25/10/2018', '2', 'Jane Andang Tifuh', 'CES-08-P0001', 1, 'Ok', 'Returned', '2018-10-12 20:17:51'),
+(4, '', 'Janem Ambeng', 'CES-10P-0002', 'Academic Dean 1', 'Sick Leave', '25/10/2018', '26/10/2018', '6', 'Cedric Tifuh Do Ndi', 'CES-07-P0002', 1, 'Ok', 'Returned', '2018-10-16 06:07:30');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `login`
 --
 
@@ -209,7 +517,8 @@ INSERT INTO `login` (`id`, `user_id`, `status`, `date`, `time_added`, `logout`) 
 (4, 'DIOCE-12-12', 1, '30/09/2018', '2018-09-30 05:10:36', '2018-09-30 05:10:36'),
 (5, 'DIOCE-12-12', 1, '01/10/2018', '2018-10-01 03:28:29', '2018-10-01 03:28:29'),
 (6, 'DIOCE-12-12', 1, '02/10/2018', '2018-10-02 01:22:15', '2018-10-02 01:22:15'),
-(7, 'DIOCE-12-12', 1, '06/10/2018', '2018-10-06 14:45:45', '2018-10-06 14:45:45');
+(7, 'DIOCE-12-12', 1, '06/10/2018', '2018-10-06 14:45:45', '2018-10-06 14:45:45'),
+(8, 'DIOCE-12-12', 1, '16/10/2018', '2018-10-16 07:16:17', '2018-10-16 07:16:17');
 
 -- --------------------------------------------------------
 
@@ -240,7 +549,9 @@ INSERT INTO `medals` (`id`, `matricule`, `medal`, `date_issued`) VALUES
 (102, 'CES-07-P0004', 'LONG SERVING', '50123'),
 (103, 'CES-07-P0004', 'GOLD', '2011'),
 (104, 'CES-07-P0004', 'SILVER', '2019'),
-(105, 'CES-07-P0004', 'BRONZE', '2005');
+(105, 'CES-07-P0004', 'BRONZE', '2005'),
+(106, 'CES-07-P0001', 'OTHERS', '20011'),
+(107, 'CES-10-P0003', 'MVP', '2010');
 
 -- --------------------------------------------------------
 
@@ -334,6 +645,49 @@ INSERT INTO `qualification` (`id`, `fname`, `cat`, `salaried`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `req_categories`
+--
+
+CREATE TABLE `req_categories` (
+  `id` int(20) NOT NULL,
+  `category_name` varchar(50) NOT NULL,
+  `category_code` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `req_categories`
+--
+
+INSERT INTO `req_categories` (`id`, `category_name`, `category_code`) VALUES
+(1, 'PURCHASES OF MATERIALS', '60'),
+(2, 'TRANSPORT COST', '61'),
+(3, 'EXTERNAL SERVICES A', '62');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `req_items`
+--
+
+CREATE TABLE `req_items` (
+  `id` int(100) NOT NULL,
+  `category_code` varchar(100) NOT NULL,
+  `item_name` varchar(200) NOT NULL,
+  `item_code` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `req_items`
+--
+
+INSERT INTO `req_items` (`id`, `category_code`, `item_name`, `item_code`) VALUES
+(1, '60', 'PESTICIDES AND WEEDICIDES', '6021000'),
+(2, '60', 'FIREWOOD', '6032000'),
+(3, '60', 'COOKING GAZ', '6032100');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `schools`
 --
 
@@ -355,7 +709,7 @@ CREATE TABLE `schools` (
 
 INSERT INTO `schools` (`id`, `name`, `address`, `abbreviation`, `tel`, `email`, `website`, `logo`, `time_added`) VALUES
 (1, 'Bishop Rogan College', 'Molyko Buea', 'BIROCOL', '65656563232', 'admin@admin.com', 'admin@admin.com', '', '2018-09-29 10:17:18'),
-(2, 'Bishop Rogan College', 'Molyko Buea', 'BIROCOL2', '65656563232', 'admin@admin.com', 'www.birocol.com', 'uploads/schools/logos/20180930070905_logo_name.png', '2018-09-29 10:22:11'),
+(2, 'Bishop Rogan College', 'Molyko Buea', 'BIROCOL', '65656563232', 'admin@admin.com', 'www.birocol.com', 'uploads/schools/logos/20180930070905_logo_name.png', '2018-09-29 10:22:11'),
 (4, 'Try on', 'ashon', 'Jimbo', '54454545', 'mail@mail.com', 'googl.com', 'uploads/schools/logos/20180930070945_Screenshot from 2018-07-18 16-10-28.png', '2018-09-30 05:21:45'),
 (5, 'yu', '', 'ui', 'ioopi', 'uioo', '', '', '2018-10-06 07:36:31');
 
@@ -459,9 +813,45 @@ INSERT INTO `work_experience` (`id`, `matricule`, `institution`, `function`, `ye
 --
 
 --
+-- Indexes for table `academic_year`
+--
+ALTER TABLE `academic_year`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `employees`
 --
 ALTER TABLE `employees`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `evaluation_categories`
+--
+ALTER TABLE `evaluation_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `evaluation_category_responses`
+--
+ALTER TABLE `evaluation_category_responses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `evaluation_essays`
+--
+ALTER TABLE `evaluation_essays`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `evaluation_questions`
+--
+ALTER TABLE `evaluation_questions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `evaluation_responses`
+--
+ALTER TABLE `evaluation_responses`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -474,6 +864,12 @@ ALTER TABLE `files`
 -- Indexes for table `functions`
 --
 ALTER TABLE `functions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `leave_requests`
+--
+ALTER TABLE `leave_requests`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -507,6 +903,18 @@ ALTER TABLE `qualification`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `req_categories`
+--
+ALTER TABLE `req_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `req_items`
+--
+ALTER TABLE `req_items`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `schools`
 --
 ALTER TABLE `schools`
@@ -535,10 +943,40 @@ ALTER TABLE `work_experience`
 --
 
 --
+-- AUTO_INCREMENT for table `academic_year`
+--
+ALTER TABLE `academic_year`
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
   MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `evaluation_categories`
+--
+ALTER TABLE `evaluation_categories`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `evaluation_category_responses`
+--
+ALTER TABLE `evaluation_category_responses`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `evaluation_essays`
+--
+ALTER TABLE `evaluation_essays`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `evaluation_questions`
+--
+ALTER TABLE `evaluation_questions`
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+--
+-- AUTO_INCREMENT for table `evaluation_responses`
+--
+ALTER TABLE `evaluation_responses`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 --
 -- AUTO_INCREMENT for table `files`
 --
@@ -550,15 +988,20 @@ ALTER TABLE `files`
 ALTER TABLE `functions`
   MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
+-- AUTO_INCREMENT for table `leave_requests`
+--
+ALTER TABLE `leave_requests`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `id` int(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `medals`
 --
 ALTER TABLE `medals`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 --
 -- AUTO_INCREMENT for table `personnel_id_card`
 --
@@ -574,6 +1017,16 @@ ALTER TABLE `personnel_nok`
 --
 ALTER TABLE `qualification`
   MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT for table `req_categories`
+--
+ALTER TABLE `req_categories`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `req_items`
+--
+ALTER TABLE `req_items`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `schools`
 --
