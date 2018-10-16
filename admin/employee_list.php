@@ -245,7 +245,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                 {
                                                     ?>
                                                 <option value="<?php echo $row['id']; ?>"
-                                                    <?php if($school == $row['id']) { echo 'selected'; } ?> >
+                                                    <?php if(isset($school)) { if($school == $row['id']) { echo 'selected'; } } ?> >
                                                     <?php echo $row['name']; ?>
                                                 </option>
                                                     <?php

@@ -422,6 +422,13 @@ include_once 'includes/navigation.php'; //page navigations.
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="text-center">
+                                            
+                                            <a href="view_perfomance.php" title="Back to Responses"
+                                                class="btn btn-lg btn-warning" >
+                                                <i class="fa fa-chevron-left"></i>
+                                                Back to Responses
+                                            </a>
+
                                             <button type="submit" name="button"
                                             class="btn btn-lg btn-primary" title="Save Responses">
                                             <i class="fa fa-save"></i>

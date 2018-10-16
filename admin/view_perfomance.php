@@ -15,6 +15,19 @@ include_once '../classes/class.Employee.php';
 $db = new dbc();
 $dbc = $db->get_instance();
 
+function getSchool($id)
+{
+    global $dbc;
+
+    $query = "SELECT `name` FROM `schools` WHERE `id` = '$id' ";
+    $result = mysqli_query($dbc, $query)
+        or die("Error");
+
+    list($school) = mysqli_fetch_array($result);
+
+    return $school;
+}
+
 //get the academic year
 $year = Constants::getAcademicYear($dbc);
 
@@ -155,7 +168,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                         {
                                                             ?>
                                                         <option value="<?php echo $row['id']; ?>"
-                                                            <?php if($school == $row['id']) { echo 'selected'; } ?> >
+                                                            <?php if(isset($school)) { if($school == $row['id']) { echo 'selected'; } } ?> >
                                                             <?php echo $row['name']; ?>
                                                         </option>
                                                             <?php
@@ -188,6 +201,24 @@ include_once 'includes/navigation.php'; //page navigations.
                           <div class="col-md-12">
                               <div class="text-center">
                                   <h2>Academic Year: <strong><?php echo $year; ?></strong> </h2>
+                              </div>
+                          </div>
+                      </div>
+                      <br>
+
+                      <div class="row">
+                          <div class="col-md-12">
+                              <div class="text-center">
+                                  <h2>School:
+                                      <strong>
+                                          <?php
+                                          if(!isset($_GET['school']))
+                                            echo 'All Schools';
+                                          else {
+                                              echo getSchool($school);
+                                          }
+                                          ?>
+                                      </strong> </h2>
                               </div>
                           </div>
                       </div>
