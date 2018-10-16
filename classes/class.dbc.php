@@ -41,18 +41,23 @@ class dbc
     private function check_instance ()
     {
         //FIRST check if a database instance has been created.
-        if($this->instance_created == FALSE)
+        if($this->instance == NULL)
         {
-            //then create a new database instance;
             $this->create_instance();
         }
         else
         {
-            if($this->instance == NULL)
+            if($this->instance_created == FALSE)
             {
+                //then create a new database instance;
                 $this->create_instance();
             }
+            else
+            {
+
+            }
         }
+
     }
 
     private function create_instance()

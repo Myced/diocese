@@ -18,9 +18,9 @@
                 </li>
 
                 <li class="has-submenu">
-                    <a href="#"><i class="icon-briefcase"></i>Personnel Documents</a>
+                    <a href="#"><i class="icon-briefcase"></i>Requisition</a>
                     <ul class="submenu">
-                        <li><a href="upload_documents.php">Upload Employee Documents</a></li>
+                        <li><a href="new_requisition.php">Create New Requisition</a></li>
                         <li><a href="view_documents.php">View Employee Documents</a></li>
                     </ul>
                 </li>
@@ -67,6 +67,23 @@
                                 <li><a href="manage_functions.php">Manage Functions</a></li>
                             </ul>
                         </li>
+
+                        <li class="has-submenu">
+                            <a href="#">Requisition Categories</a>
+                            <ul class="submenu">
+                                <li><a href="add_req_category.php">Add Category</a></li>
+                                <li><a href="manage_req_categories.php">Manage Categories</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="has-submenu">
+                            <a href="#">Requisition Items</a>
+                            <ul class="submenu">
+                                <li><a href="add_req_item.php">Add Requisition Item</a></li>
+                                <li><a href="manage_req_items.php">Manage Requisition Items</a></li>
+                            </ul>
+                        </li>
+
                         <li><a href="set_academic_year.php">Set Current Academic Year</a></li>
                     </ul>
                 </li>

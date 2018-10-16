@@ -224,8 +224,7 @@ include_once 'includes/navigation.php'; //page navigations.
                       </h2>
 
                       <form class="" action="" method="get">
-                          <h3>Filter</h3>
-
+                          
                           <div class="row">
                               <div class="col-md-6">
                                   <div class="form-group row">
@@ -254,8 +253,6 @@ include_once 'includes/navigation.php'; //page navigations.
                                           </select>
                                       </div>
                                   </div>
-
-
 
                               </div>
 
