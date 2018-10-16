@@ -25,6 +25,7 @@ if(isset($_GET['filter']))
 
     $page_number  = 1;
     $page_count = 1;
+    $count = 1;
 }
 else {
     //pageinate
@@ -243,7 +244,8 @@ include_once 'includes/navigation.php'; //page navigations.
                                                 while($row = mysqli_fetch_array($res))
                                                 {
                                                     ?>
-                                                <option value="<?php echo $row['id']; ?>">
+                                                <option value="<?php echo $row['id']; ?>"
+                                                    <?php if($school == $row['id']) { echo 'selected'; } ?> >
                                                     <?php echo $row['name']; ?>
                                                 </option>
                                                     <?php

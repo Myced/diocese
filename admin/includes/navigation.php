@@ -67,6 +67,7 @@
                                 <li><a href="manage_functions.php">Manage Functions</a></li>
                             </ul>
                         </li>
+                        <li><a href="set_academic_year.php">Set Current Academic Year</a></li>
                     </ul>
                 </li>
 
