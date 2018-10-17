@@ -153,7 +153,7 @@ include_once 'includes/navigation.php'; //page navigations.
 
                                         <?php
                                         $count = 1;
-                                        $query  = "SELECT * FROM `req_items` LIMIT 8";
+                                        $query  = "SELECT * FROM `req_items` ORDER BY `id` DESC LIMIT 8";
                                         $result = mysqli_query($dbc, $query)
                                             or die("Error");
 

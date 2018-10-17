@@ -8,48 +8,26 @@ include_once '../classes/class.AccountStatus.php';
 include_once '../classes/class.User.php'; //instantiates a user object;
 include_once '../classes/class.UserLevel.php';
 include_once '../classes/class.Constants.php';
+include_once '../classes/class.Requisition.php';
 
 //initialise the database variable to use in the application
 $db = new dbc();
 $dbc = $db->get_instance();
 
-//function to generate a requisition code
-function generateReqCode()
+//get the request code
+if(isset($_GET['code']))
 {
-    global $dbc;
-
-    $y = date("y");
-    $year = date("Y");
-
-    $query = "SELECT * FROM `req_count`
-            WHERE `year` = '$year' ";
-    $result = mysqli_query($dbc, $query)
-        or die("Error");
-
-    $num  = mysqli_num_rows($result);
-
-    ++$num;
-
-    if($num < 10)
-    {
-        $numm = '00' . $num;
-    }
-    elseif($num < 100)
-    {
-        $numm = '0' . $num;
-    }
-    else {
-        $numm = $num;
-    }
-
-    return 'REQ-' . $y . '-' . $numm;
+    $req_code = filter($_GET['code']);
+}
+else {
+    header("Location: view_requisitions.php");
 }
 
 //process form here
 if(isset($_POST['req_code']))
 {
     //get the form fields
-    $requestCode  = filter($_POST['req_code']);
+    $requestCode  = filter($_GET['code']);
     $school = filter($_POST['school']);
     $inputer = filter($_POST['inputer']);
     $authoriser = filter($_POST['authoriser']);
@@ -60,26 +38,16 @@ if(isset($_POST['req_code']))
     $names  = $_POST['name'];
     $codes = $_POST['code'];
 
-    //now check that the code does not exist.
-    //else create a new one
-    $query = "SELECT * FROM `req_count` WHERE `req_code` = '$requestCode'";
-    $result = mysqli_query($dbc, $query)
-        or die("Error");
-
-    if(mysqli_num_rows($result) != 0)
-    {
-        ///generate a new code
-        $requestCode = generateReqCode();
-    }
-
     $end = count($amounts);
     $year = date("Y");
 
     $itemCount = 0;
     $amountTotal = 0;
 
+    $req = new Requisition($dbc, $requestCode);
+
     //now loop through all these
-    for($i = 1; $i < $end; $i++)
+    for($i = 0; $i < $end; $i++)
     {
         //get the item
         $justification = filter($justifications[$i]);
@@ -95,47 +63,43 @@ if(isset($_POST['req_code']))
             $amountTotal += $amount;
 
             //save it
-            $query = "INSERT INTO `req_content`
-                (`req_code`, `item_code`, `item_name`,
-                    `amount`, `justification`
-                )
+            $req->saveResponse($code, $name, $amount, $justification);
 
-                VALUES
-                ('$requestCode', '$code', '$name',
-                    '$amount', '$justification'
-                )
-            ";
-            $result = mysqli_query($dbc, $query)
-                or die("Error" . mysqli_error($dbc));
         }
     }
 
     //now save to the count
-    $query = "INSERT INTO `req_count`
-        (`req_code`, `school`, `inputer`, `authoriser`,
-            `month`, `items`, `total`, `year`
-        )
-
-        VALUES
-        ('$requestCode', '$school', '$inputer', '$authoriser',
-            '$month', '$itemCount', '$amountTotal', '$year'
-        )
+    $query = "UPDATE `req_count` SET
+         `school` = '$school', `inputer` = '$inputer',
+         `authoriser` = '$authoriser',
+            `month` = '$month', `items` = '$itemCount',
+            `total` = '$amountTotal', `year` = '$year'
+            WHERE `req_code` = '$requestCode'
     ";
 
     $result = mysqli_query($dbc, $query)
         or die("Errpr");
 
-    $success = "Requisition made. You can view and modify it later";
+    $success = "Requisition Updated";
 }
 
-$req_code = generateReqCode();
 
 //then include static html
 include_once 'includes/head.php';
  ?>
  <!-- enter custom css files needed for this page here  -->
 <link rel="stylesheet" href="../assets/css/lib/select2.css">
+<style media="screen">
+    .form-control
+    {
+        color: #000;
+    }
 
+    .form-control:hover
+    {
+        color: #000;
+    }
+</style>
  <?php
 include_once 'includes/top_bar.php'; //for the page title and logo and account information
 include_once 'includes/navigation.php'; //page navigations.
@@ -161,7 +125,19 @@ include_once 'includes/navigation.php'; //page navigations.
                       <form class="" action="" method="post">
                           <div class="row">
                               <div class="col-md-2">
+                                  <?php
+                                  $query = "SELECT * FROM `req_count`
+                                    WHERE `req_code` = '$req_code' ";
+                                  $result = mysqli_query($dbc, $query);
 
+                                  while($row = mysqli_fetch_array($result))
+                                  {
+                                      $school  = $row['school'];
+                                      $inputer = $row['inputer'];
+                                      $authoriser = $row['authoriser'];
+                                      $month = $row['month'];
+                                  }
+                                   ?>
                               </div>
 
                               <div class="col-md-8">
@@ -181,7 +157,14 @@ include_once 'includes/navigation.php'; //page navigations.
                                              while($row = mysqli_fetch_array($result))
                                              {
                                                  ?>
-                                            <option value="<?php echo $row['id']; ?>">
+                                            <option value="<?php echo $row['id']; ?>"
+                                                <?php
+                                                if($school == $row['id'])
+                                                {
+                                                    echo 'selected';
+                                                }
+                                                 ?>
+                                                >
                                                 <?php echo $row['name']; ?>
                                             </option>
                                                  <?php
@@ -202,7 +185,8 @@ include_once 'includes/navigation.php'; //page navigations.
                                       </label>
                                       <div class="col-sm-8">
                                           <input type="text"  name="inputer"  class="form-control"
-                                            placeholder="Name of Person Inputing" required>
+                                            placeholder="Name of Person Inputing" required
+                                            value="<?php echo $inputer; ?>">
                                       </div>
                                   </div>
                               </div>
@@ -215,7 +199,8 @@ include_once 'includes/navigation.php'; //page navigations.
                                       </label>
                                       <div class="col-sm-8">
                                           <input type="text"  name="authoriser"  class="form-control"
-                                            placeholder="Authoriser" required>
+                                            placeholder="Authoriser" required
+                                            value="<?php echo $authoriser; ?>">
                                       </div>
                                   </div>
                               </div>
@@ -228,7 +213,8 @@ include_once 'includes/navigation.php'; //page navigations.
                                       </label>
                                       <div class="col-sm-8">
                                           <input type="text"  name="month"  class="form-control"
-                                            placeholder="Month" required>
+                                            placeholder="Month" required
+                                            value="<?php echo $month; ?>">
                                       </div>
                                   </div>
                               </div>
@@ -258,6 +244,9 @@ include_once 'includes/navigation.php'; //page navigations.
                                       </tr>
 
                                       <?php
+                                      //create a new instance of requisition
+                                      $requisition = new Requisition($dbc, $req_code);
+
                                       //get the req categories
                                       $query = "SELECT * FROM `req_categories` ";
                                       $categories = mysqli_query($dbc, $query)
@@ -266,6 +255,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                       while($r = mysqli_fetch_array($categories))
                                       {
                                           $catCode = $r['category_code'];
+                                          $catTotal = 0;
 
                                           ?>
                                           <tr>
@@ -284,6 +274,11 @@ include_once 'includes/navigation.php'; //page navigations.
 
                                             while($row = mysqli_fetch_array($result))
                                             {
+                                                $itemAmount = $requisition->getAmount($row['item_code']);
+                                                $itemJustification = $requisition->getJustification($row['item_code']);
+
+                                                $catTotal += $itemAmount;
+
                                                 ?>
                                                 <tr>
                                                     <input type="hidden" name="code[]" value="<?php echo $row['item_code']; ?>">
@@ -293,11 +288,14 @@ include_once 'includes/navigation.php'; //page navigations.
                                                     <td>
                                                         <input type="text" name="amount[]"
                                                         data-id1="<?php echo $catCode; ?>"
-                                                        class="form-control amount item_<?php echo $catCode; ?>" placeholder="Amount">
+                                                        class="form-control amount item_<?php echo $catCode; ?>"
+                                                        placeholder="Amount"
+                                                        value="<?php echo $itemAmount; ?>">
                                                     </td>
                                                     <td>
                                                         <input type="text" name="justification[]"
-                                                        class="form-control" placeholder="Justification">
+                                                        class="form-control" placeholder="Justification"
+                                                        value="<?php echo $itemJustification; ?>">
                                                     </td>
                                                 </tr>
                                                 <?php
@@ -308,7 +306,9 @@ include_once 'includes/navigation.php'; //page navigations.
                                                 <td></td>
                                                 <td> <strong>Total</strong> </td>
                                                 <td colspan="2" class="text-center">
-                                                    <strong> <span class="total_<?php echo $catCode; ?> heading bigger"></span> FCFA </strong>
+                                                    <strong> <span class="total_<?php echo $catCode; ?> heading bigger">
+                                                        <?php echo number_format($catTotal); ?>
+                                                    </span> FCFA </strong>
                                                 </td>
                                             </tr>
 
@@ -329,8 +329,8 @@ include_once 'includes/navigation.php'; //page navigations.
                                   <div class="text-center">
                                       <button type="submit" name="button"
                                       class="btn btn-primary btn-lg">
-                                      <i class="fa fa-plus"></i>
-                                      Make Requisition
+                                      <i class="mdi mdi-backup-restore"></i>
+                                      Update Requisition
                                   </button>
                                   </div>
                               </div>

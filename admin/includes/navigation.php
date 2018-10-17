@@ -21,7 +21,7 @@
                     <a href="#"><i class="icon-briefcase"></i>Requisition</a>
                     <ul class="submenu">
                         <li><a href="new_requisition.php">Create New Requisition</a></li>
-                        <li><a href="view_documents.php">View Employee Documents</a></li>
+                        <li><a href="view_requisitions.php">View Requisitions</a></li>
                     </ul>
                 </li>
 

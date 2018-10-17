@@ -128,7 +128,7 @@ include_once 'includes/navigation.php'; //page navigations.
 
                                         <?php
                                         $count = 1;
-                                        $query  = "SELECT * FROM `req_categories` LIMIT 8";
+                                        $query  = "SELECT * FROM `req_categories`  ORDER BY `id` DESC LIMIT 8";
                                         $result = mysqli_query($dbc, $query)
                                             or die("Error");
 

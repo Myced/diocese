@@ -224,7 +224,7 @@ include_once 'includes/navigation.php'; //page navigations.
                       </h2>
 
                       <form class="" action="" method="get">
-                          
+
                           <div class="row">
                               <div class="col-md-6">
                                   <div class="form-group row">
@@ -461,12 +461,6 @@ include_once 'includes/scripts.php';
  <!-- enter your custom scripts needed for the page here -->
 <script src="../assets/js/lib/sweetalert2.min.js"></script>
 <script type="text/javascript">
-
-/**
-* Theme: Highdmin - Responsive Bootstrap 4 Admin Dashboard
-* Author: Coderthemes
-* SweetAlert
-*/
 
 !function ($) {
 "use strict";
