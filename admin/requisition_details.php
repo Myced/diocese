@@ -132,7 +132,7 @@ include_once 'includes/navigation.php'; //page navigations.
                       <div class="row">
                           <div class="col-md-6">
                               <div class="row">
-                                  <dt class="col-sm-4 right-align">School: </dt>
+                                  <dt class="col-sm-4 right-align">Name of School: </dt>
                                   <dd class="col-sm-8"><?php echo $school; ?></dd>
                               </div>
                           </div>

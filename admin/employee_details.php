@@ -226,13 +226,13 @@ include_once 'includes/navigation.php'; //page navigations.
 
                                     <div class="col-md-6">
                                         <div class="row">
-                                            <dt class="col-sm-5 right-align">Sacramental Staus: </dt>
+                                            <dt class="col-sm-5 right-align">Sacramental Status: </dt>
                                             <dd class="col-sm-7"><?php echo $employee->sacramentalStatus; ?></dd>
 
-                                            <dt class="col-sm-5 right-align">Marital Staus: </dt>
+                                            <dt class="col-sm-5 right-align">Marital Status: </dt>
                                             <dd class="col-sm-7"><?php echo $employee->maritalStatus; ?></dd>
 
-                                            <dt class="col-sm-5 right-align">Personal Staus: </dt>
+                                            <dt class="col-sm-5 right-align">Personal Status: </dt>
                                             <dd class="col-sm-7"><?php echo $employee->personalStatus; ?></dd>
                                         </div>
                                     </div>
