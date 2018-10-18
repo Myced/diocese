@@ -115,7 +115,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                                $log = $row['logo'];
                                                if(empty($log))
                                                {
-                                                   $logo = Constants::DEFAULT_SCHOOL_LOGO;
+                                                   $logo = '../' . Constants::DEFAULT_SCHOOL_LOGO;
                                                }
                                                else {
                                                    $logo = '../' . $log;

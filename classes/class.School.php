@@ -47,12 +47,12 @@ class School
 
                 }
                 else {
-                    $logo = Constants::DEFAULT_SCHOOL_LOGO;
+                    $logo = '../' . Constants::DEFAULT_SCHOOL_LOGO;
                 }
 
             }
             else {
-                $logo = Constants::DEFAULT_SCHOOL_LOGO;
+                $logo = '../' . Constants::DEFAULT_SCHOOL_LOGO;
             }
             //set the logo
             $this->logo = $logo;

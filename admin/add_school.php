@@ -195,7 +195,7 @@ include_once 'includes/navigation.php'; //page navigations.
                                           <input type="file"  name="logo" id="logo" class="form-control">
 
                                             <br>
-                                            <img src="<?php echo Constants::DEFAULT_SCHOOL_LOGO; ?>"
+                                            <img src="../<?php echo Constants::DEFAULT_SCHOOL_LOGO; ?>"
                                                 alt="SCHOOL LOGO" id="img" width="250px" height="250px">
                                       </div>
                                   </div>

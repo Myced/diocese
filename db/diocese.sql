@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 16, 2018 at 12:41 
+-- Generation Time: Oct 18, 2018 at 09:45 
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.24
 
@@ -189,7 +189,8 @@ INSERT INTO `evaluation_essays` (`id`, `matricule`, `training_needed`, `justific
 (2, 'CES-07-P0004', 'Nothing Please', '', '', '', '2', '2018/2019'),
 (3, 'CES-10-P0003', '', '', '', '', '1', '2018/2019'),
 (4, 'CES-10-P0003', '', '', '', '', '2', '2018/2019'),
-(5, 'CES-10P-0002', '', '', '', '', '2', '2018/2019');
+(5, 'CES-10P-0002', '', '', '', '', '2', '2018/2019'),
+(6, 'CES--P0001', '', '', '', '', '2', '2018/2019');
 
 -- --------------------------------------------------------
 
@@ -254,10 +255,10 @@ CREATE TABLE `evaluation_responses` (
 --
 
 INSERT INTO `evaluation_responses` (`id`, `matricule`, `question_id`, `mark`, `year`, `term`) VALUES
-(1, 'CES-07-P0004', '3', '1', '2018/2019', 1),
-(2, 'CES-07-P0004', '2', '0', '2018/2019', 1),
-(3, 'CES-07-P0004', '4', '2', '2018/2019', 1),
-(4, 'CES-07-P0004', '5', '3', '2018/2019', 1),
+(1, 'CES-07-P0004', '3', '4', '2018/2019', 1),
+(2, 'CES-07-P0004', '2', '5', '2018/2019', 1),
+(3, 'CES-07-P0004', '4', '5', '2018/2019', 1),
+(4, 'CES-07-P0004', '5', '5', '2018/2019', 1),
 (5, 'CES-07-P0004', '7', '1', '2018/2019', 1),
 (6, 'CES-07-P0004', '8', '2', '2018/2019', 1),
 (7, 'CES-07-P0004', '9', '3', '2018/2019', 1),
@@ -265,8 +266,8 @@ INSERT INTO `evaluation_responses` (`id`, `matricule`, `question_id`, `mark`, `y
 (9, 'CES-07-P0004', '11', '5', '2018/2019', 1),
 (10, 'CES-07-P0004', '12', '5', '2018/2019', 1),
 (11, 'CES-07-P0004', '13', '5', '2018/2019', 1),
-(12, 'CES-07-P0004', '15', '1', '2018/2019', 1),
-(13, 'CES-07-P0004', '16', '2', '2018/2019', 1),
+(12, 'CES-07-P0004', '15', '5', '2018/2019', 1),
+(13, 'CES-07-P0004', '16', '4', '2018/2019', 1),
 (14, 'CES-07-P0004', '17', '1', '2018/2019', 1),
 (15, 'CES-07-P0004', '18', '2', '2018/2019', 1),
 (16, 'CES-07-P0004', '2', '1', '2018/2019', 2),
@@ -372,7 +373,21 @@ INSERT INTO `evaluation_responses` (`id`, `matricule`, `question_id`, `mark`, `y
 (116, 'CES-07-P0004', '24', '5', '2018/2019', 1),
 (117, 'CES-07-P0004', '25', '5', '2018/2019', 1),
 (118, 'CES-07-P0004', '26', '5', '2018/2019', 1),
-(119, 'CES-07-P0004', '27', '5', '2018/2019', 1);
+(119, 'CES-07-P0004', '27', '5', '2018/2019', 1),
+(120, 'CES--P0001', '2', '2', '2018/2019', 2),
+(121, 'CES--P0001', '3', '3', '2018/2019', 2),
+(122, 'CES--P0001', '4', '5', '2018/2019', 2),
+(123, 'CES--P0001', '5', '5', '2018/2019', 2),
+(124, 'CES--P0001', '7', '5', '2018/2019', 2),
+(125, 'CES--P0001', '8', '4', '2018/2019', 2),
+(126, 'CES--P0001', '9', '5', '2018/2019', 2),
+(127, 'CES--P0001', '10', '4', '2018/2019', 2),
+(128, 'CES--P0001', '11', '5', '2018/2019', 2),
+(129, 'CES--P0001', '12', '4', '2018/2019', 2),
+(130, 'CES--P0001', '13', '5', '2018/2019', 2),
+(131, 'CES--P0001', '24', '5', '2018/2019', 2),
+(132, 'CES--P0001', '25', '5', '2018/2019', 2),
+(133, 'CES--P0001', '26', '4', '2018/2019', 2);
 
 -- --------------------------------------------------------
 
@@ -518,7 +533,8 @@ INSERT INTO `login` (`id`, `user_id`, `status`, `date`, `time_added`, `logout`) 
 (5, 'DIOCE-12-12', 1, '01/10/2018', '2018-10-01 03:28:29', '2018-10-01 03:28:29'),
 (6, 'DIOCE-12-12', 1, '02/10/2018', '2018-10-02 01:22:15', '2018-10-02 01:22:15'),
 (7, 'DIOCE-12-12', 1, '06/10/2018', '2018-10-06 14:45:45', '2018-10-06 14:45:45'),
-(8, 'DIOCE-12-12', 1, '16/10/2018', '2018-10-16 07:16:17', '2018-10-16 07:16:17');
+(8, 'DIOCE-12-12', 1, '16/10/2018', '2018-10-16 07:16:17', '2018-10-16 07:16:17'),
+(9, 'DIOCE-12-12', 1, '18/10/2018', '2018-10-18 07:33:01', '2018-10-18 07:33:01');
 
 -- --------------------------------------------------------
 
@@ -666,6 +682,87 @@ INSERT INTO `req_categories` (`id`, `category_name`, `category_code`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `req_content`
+--
+
+CREATE TABLE `req_content` (
+  `id` int(200) NOT NULL,
+  `req_code` varchar(60) NOT NULL,
+  `item_code` varchar(100) NOT NULL,
+  `item_name` varchar(200) NOT NULL,
+  `amount` varchar(200) NOT NULL,
+  `justification` text NOT NULL,
+  `time_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `req_content`
+--
+
+INSERT INTO `req_content` (`id`, `req_code`, `item_code`, `item_name`, `amount`, `justification`, `time_added`) VALUES
+(1, 'REQ-18-003', '6032000', 'FIREWOOD', '9000', 'jesus lord', '2018-10-16 15:37:34'),
+(2, 'REQ-18-003', '6032100', 'COOKING GAZ', '9000', 'make up', '2018-10-16 15:37:34'),
+(3, 'REQ-18-003', '6120000', 'TRANSPORT BY WATER', '9000201', 'Bad Job', '2018-10-16 15:37:34'),
+(4, 'REQ-18-003', '6141000', 'LEAVE TRANSPORT', '9000', '9000', '2018-10-16 15:37:34'),
+(5, 'REQ-18-003', '6223000', 'RENTS OF RESIDENTIAL BUILDING', '900021', 'cry', '2018-10-16 15:37:34'),
+(6, 'REQ-18-003', '6224000', 'RENTS OF EQUIPMENT', '9000', '9000', '2018-10-16 15:37:34'),
+(7, '', '6032000', 'FIREWOOD', '120000', '120000', '2018-10-16 17:53:53'),
+(8, '', '6032100', 'COOKING GAZ', '8000', '8000', '2018-10-16 17:53:53'),
+(9, '', '6120000', 'TRANSPORT BY WATER', '4000', '4000', '2018-10-16 17:53:53'),
+(10, '', '6130000', 'TRANSPORT BY AIR', '88000', '88000', '2018-10-16 17:53:53'),
+(11, '', '6141000', 'LEAVE TRANSPORT', '9000', '9000', '2018-10-16 17:53:53'),
+(12, '', '6222000', 'RENTS OF NON RESIDENTIAL BUILDINGS', '1000', '1000', '2018-10-16 17:53:53'),
+(13, '', '6223000', 'RENTS OF RESIDENTIAL BUILDING', '7000', '7000', '2018-10-16 17:53:53'),
+(14, '', '6224000', 'RENTS OF EQUIPMENT', '9000', '9000', '2018-10-16 17:53:53'),
+(15, 'REQ-18-003', '6130000', 'TRANSPORT BY AIR', '1230', 'make sense', '2018-10-16 18:07:20'),
+(16, 'REQ-18-003', '6142000', 'TRANSPORT ON TRANSFER', '3000', 'fix it now', '2018-10-16 18:07:51'),
+(17, 'REQ-18-003', '6110000', 'TRANSPORT', '3909', 'first of his name', '2018-10-16 18:08:11'),
+(18, 'REQ-18-003', '6021000', 'PESTICIDES AND WEEDICIDES', '3000', 'comign home', '2018-10-16 18:10:24'),
+(19, '', '6032100', 'COOKING GAZ', '43000', 'Fomo', '2018-10-17 12:51:00'),
+(20, '', '6130000', 'TRANSPORT BY AIR', '1000', 'Insect', '2018-10-17 12:51:00'),
+(21, '', '6142000', 'TRANSPORT ON TRANSFER', '3000', 'Laf out', '2018-10-17 12:51:00'),
+(22, '', '6224000', 'RENTS OF EQUIPMENT', '3000', 'No way', '2018-10-17 12:51:00'),
+(23, 'REQ-18-003', '6032100', 'COOKING GAZ', '20000', 'no nsne', '2018-10-17 12:53:51'),
+(24, 'REQ-18-004', '6032000', 'FIREWOOD', '5000', 'hahaha', '2018-10-17 12:55:25'),
+(25, 'REQ-18-005', '6032000', 'FIREWOOD', '3000', 'tifuh', '2018-10-17 12:56:40'),
+(27, 'REQ-18-004', '6141000', 'LEAVE TRANSPORT', '1000', 'no justification', '2018-10-17 12:57:07'),
+(28, 'REQ-18-005', '6110000', 'TRANSPORT', '4000', 'No justification', '2018-10-17 16:41:02'),
+(29, 'REQ-18-005', '6120000', 'TRANSPORT BY WATER', '6000', 'Monkeys', '2018-10-17 16:41:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `req_count`
+--
+
+CREATE TABLE `req_count` (
+  `id` int(200) NOT NULL,
+  `req_code` varchar(20) NOT NULL,
+  `school` varchar(60) NOT NULL,
+  `inputer` varchar(300) NOT NULL,
+  `authoriser` varchar(300) NOT NULL,
+  `month` varchar(100) NOT NULL,
+  `items` int(20) NOT NULL,
+  `total` varchar(100) NOT NULL,
+  `year` varchar(10) NOT NULL,
+  `time_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` int(4) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `req_count`
+--
+
+INSERT INTO `req_count` (`id`, `req_code`, `school`, `inputer`, `authoriser`, `month`, `items`, `total`, `year`, `time_added`, `status`) VALUES
+(3, 'REQ-18-003', '4', 'Ndi Tifiuh', 'John Mbaj', 'January2010', 10, '9947361', '2018', '2018-10-16 15:37:34', 1),
+(4, '', '2', 'Cedric', 'Tifuh', 'June', 4, '50000', '2018', '2018-10-17 12:51:00', 1),
+(5, 'REQ-18-003', '1', 'jj Okocha', 'Name', 'January', 1, '20000', '2018', '2018-10-17 12:53:51', 1),
+(6, 'REQ-18-004', '5', 'Calester', 'jon', 'July', 2, '6000', '2018', '2018-10-17 12:55:25', 1),
+(7, 'REQ-18-005', '5', 'nurse', 'ced', 'frank', 3, '13000', '2018', '2018-10-17 12:56:41', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `req_items`
 --
 
@@ -683,7 +780,15 @@ CREATE TABLE `req_items` (
 INSERT INTO `req_items` (`id`, `category_code`, `item_name`, `item_code`) VALUES
 (1, '60', 'PESTICIDES AND WEEDICIDES', '6021000'),
 (2, '60', 'FIREWOOD', '6032000'),
-(3, '60', 'COOKING GAZ', '6032100');
+(3, '60', 'COOKING GAZ', '6032100'),
+(4, '61', 'TRANSPORT', '6110000'),
+(5, '61', 'TRANSPORT BY WATER', '6120000'),
+(6, '61', 'TRANSPORT BY AIR', '6130000'),
+(7, '61', 'LEAVE TRANSPORT', '6141000'),
+(8, '61', 'TRANSPORT ON TRANSFER', '6142000'),
+(9, '62', 'RENTS OF NON RESIDENTIAL BUILDINGS', '6222000'),
+(10, '62', 'RENTS OF RESIDENTIAL BUILDING', '6223000'),
+(11, '62', 'RENTS OF EQUIPMENT', '6224000');
 
 -- --------------------------------------------------------
 
@@ -762,21 +867,25 @@ CREATE TABLE `users` (
   `account_status` int(10) NOT NULL DEFAULT '1',
   `account_type` int(2) NOT NULL DEFAULT '2',
   `school` varchar(30) NOT NULL DEFAULT ' ',
+  `ip_address` varchar(100) NOT NULL,
   `day` int(2) NOT NULL,
   `month` int(2) NOT NULL,
   `year` year(4) NOT NULL,
   `date` varchar(30) NOT NULL,
   `mysql_date` varchar(30) NOT NULL,
-  `time_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `time_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_agent` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user_id`, `avatar`, `username`, `password`, `level`, `full_name`, `position`, `tel`, `email`, `account_status`, `account_type`, `school`, `day`, `month`, `year`, `date`, `mysql_date`, `time_added`) VALUES
-(1, 'DIOCE-12-12', '', 'admin', '$2y$10$OpU4XKiMsf/fzGvNvGkKPu69mICqOjUy6Q9aeOYUjs6KdiapjgD6.', 1, 'Administrator', 'Admin', '690159632', 'admin@webmaster.com', 1, 1, ' ', 13, 9, 2018, '13/09/2018', '2018-09-13', '2018-09-29 08:02:46'),
-(2, 'DIOCE-12-120', '', 'school', '$2y$10$OpU4XKiMsf/fzGvNvGkKPu69mICqOjUy6Q9aeOYUjs6KdiapjgD6.', 3, 'Principal', 'Principal', '690159632', 'princip@birocol.com', 1, 2, ' 1', 13, 9, 2018, '13/09/2018', '2018-09-13', '2018-09-29 08:02:46');
+INSERT INTO `users` (`id`, `user_id`, `avatar`, `username`, `password`, `level`, `full_name`, `position`, `tel`, `email`, `account_status`, `account_type`, `school`, `ip_address`, `day`, `month`, `year`, `date`, `mysql_date`, `time_added`, `user_agent`) VALUES
+(1, 'DIOCE-12-12', 'uploads/employees/documents/08102018101059Screenshot from 2018-08-02 14-13-52.png', 'admin', '$2y$10$FxifGvhAkmKMHnhtRSjG/OgUbcYZ4d/lhvSY9CjWOoSBxxVuBnve6', 1, 'Administrator', 'Admin', '8690159632', 'admin@webmaster.com', 1, 1, ' 1', '', 13, 9, 2018, '13/09/2018', '2018-09-13', '2018-09-29 08:02:46', ''),
+(2, 'DIOCE-12-120', 'uploads/avatars/20181018093820_*..png', 'school', '$2y$10$FxifGvhAkmKMHnhtRSjG/OgUbcYZ4d/lhvSY9CjWOoSBxxVuBnve6', 3, 'Principal', 'Principal', '690159632', 'princip@birocol.com', 1, 2, '2', '', 13, 9, 2018, '13/09/2018', '2018-09-13', '2018-09-29 08:02:46', ''),
+(3, 'DIOCE-18U0003', '', 'user', '$2y$10$FxifGvhAkmKMHnhtRSjG/OgUbcYZ4d/lhvSY9CjWOoSBxxVuBnve6', 2, 'ced', 'work', 'wereok', 'mail@mail.com', 1, 2, '2', '::1', 18, 10, 2018, '18/10/2018', '2018-10-18', '2018-10-18 06:34:17', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36'),
+(4, 'DIOCE-18U0004', '', 'jane', '$2y$10$FxifGvhAkmKMHnhtRSjG/OgUbcYZ4d/lhvSY9CjWOoSBxxVuBnve6', 10, 'jane', 'jane', 'jane', 'jane', 1, 2, '2', '::1', 18, 10, 2018, '18/10/2018', '2018-10-18', '2018-10-18 06:36:16', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36');
 
 -- --------------------------------------------------------
 
@@ -909,6 +1018,18 @@ ALTER TABLE `req_categories`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `req_content`
+--
+ALTER TABLE `req_content`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `req_count`
+--
+ALTER TABLE `req_count`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `req_items`
 --
 ALTER TABLE `req_items`
@@ -966,7 +1087,7 @@ ALTER TABLE `evaluation_category_responses`
 -- AUTO_INCREMENT for table `evaluation_essays`
 --
 ALTER TABLE `evaluation_essays`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `evaluation_questions`
 --
@@ -976,7 +1097,7 @@ ALTER TABLE `evaluation_questions`
 -- AUTO_INCREMENT for table `evaluation_responses`
 --
 ALTER TABLE `evaluation_responses`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
 --
 -- AUTO_INCREMENT for table `files`
 --
@@ -996,7 +1117,7 @@ ALTER TABLE `leave_requests`
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `id` int(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `medals`
 --
@@ -1023,10 +1144,20 @@ ALTER TABLE `qualification`
 ALTER TABLE `req_categories`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
+-- AUTO_INCREMENT for table `req_content`
+--
+ALTER TABLE `req_content`
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+--
+-- AUTO_INCREMENT for table `req_count`
+--
+ALTER TABLE `req_count`
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
 -- AUTO_INCREMENT for table `req_items`
 --
 ALTER TABLE `req_items`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `schools`
 --
@@ -1041,7 +1172,7 @@ ALTER TABLE `schools_attended`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `work_experience`
 --
