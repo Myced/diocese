@@ -335,9 +335,9 @@ include_once 'includes/navigation.php'; //page navigations.
                                                         while($row = mysqli_fetch_array($res))
                                                         {
                                                             ?>
-                                                        <option value="<?php echo $row['id']; ?>">
+                                                        <option value="<?php echo $row['id']; ?>"
+                                                            <?php if($user->school == $row['id']) { echo 'selected'; } ?> >
                                                             <?php echo $row['name']; ?>
-                                                            <?php if($user->school == $row['id']) { echo 'selected'; } ?>
                                                         </option>
                                                             <?php
                                                         }
@@ -375,7 +375,74 @@ include_once 'includes/footer.php';
 include_once 'includes/scripts.php';
    ?>
  <!-- enter your custom scripts needed for the page here -->
+ <script type="text/javascript">
+     $(document).ready(function(){
 
+         //declare constants
+         const PERSONNEL_ADMINISTRATOR = 1;
+         const SCHOOL_ACCOUNTANT = 2;
+         const SCHOOL_PRINCIPAL = 3;
+         const FINANCE_CONTROLLER = 4;
+         const BISHOP = 10;
+
+         //normal variables
+         $school = $("#school");
+
+         $('.radio').click(function(){
+             var value = $(this).val();
+
+             if(value == PERSONNEL_ADMINISTRATOR
+                || value == BISHOP )
+            {
+                hideSchool();
+            }
+            else {
+                showSchool();
+            }
+         });
+
+         function showSchool()
+         {
+             if($school.hasClass("hide"))
+             {
+                 $school.removeClass("hide");
+             }
+
+             $school.addClass("show");
+         }
+
+         function hideSchool()
+         {
+             if($school.hasClass("show"))
+             {
+                 $school.removeClass("show");
+             }
+
+             $school.addClass("hide");
+         }
+
+         function readURL(input) {
+
+          if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+              $('#img').attr('src', e.target.result);
+
+              $('#img').hide();
+              $('#img').fadeIn(650);
+
+            }
+
+            reader.readAsDataURL(input.files[0]);
+          }
+        }
+
+        $("#image").change(function() {
+          readURL(this);
+        });
+     });
+ </script>
  <?php
 include_once 'includes/end.php';
   ?>
