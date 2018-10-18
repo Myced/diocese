@@ -8,25 +8,6 @@
  //start the session first
  session_start();
 
- //check login
- //make sure the user is logged in
- if(!isset($_SESSION['user_id']))
- {
-     //redirect the user to the login
-     $path = 'login.php';
-
-     if(file_exists($path))
-     {
-         header("Location: $path");
-     }
-     else
-     {
-         $path = '../login.php';
-         header("Location: $path");
-     }
- }
-
-
 /**
  * @param number ONE_DaY The result of 24hours x 3600 to get the value of 1 day in seconds
  */
