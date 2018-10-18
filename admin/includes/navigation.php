@@ -84,6 +84,14 @@
                             </ul>
                         </li>
 
+                        <li class="has-submenu">
+                            <a href="#">Users</a>
+                            <ul class="submenu">
+                                <li><a href="add_user.php">Add User</a></li>
+                                <li><a href="manage_users.php">Manage Users</a></li>
+                            </ul>
+                        </li>
+
                         <li><a href="set_academic_year.php">Set Current Academic Year</a></li>
                     </ul>
                 </li>
