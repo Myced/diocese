@@ -178,7 +178,7 @@ $result=mysql_query($query);
 ?>
 					<img src="<?php echo $emp->avatar;?>" width="250px" height="205p">
 					</td>
-					<td><?php echo $rec['empname']; ?>
+					<td>
 		 <?php } ?>
 </div>
 
@@ -196,7 +196,7 @@ $result=mysql_query($query);
 
 
 		  <table width="500px" cellspacing="0" cellpadding="3" style='font-family:times;'>
-		  <tr><td> School/Unit</td><td>:</td><td><b><?php 		
+		  <tr><td> School/Unit</td><td>:</td><td><b><?php
  echo $emp->school;
  ?></b>
  </td></tr>
@@ -220,12 +220,9 @@ $result=mysql_query($query);
 
 
 
- 		  <tr><td> Place of Birth</td><td>:</td><td> <?php if(empty($place)){
-
-	 echo "<b style='font-weight:normal; color:#ccc;'>No place Of Birth</b>";
- } elseif($place>''){
-	 echo $place;
- }
+ 		  <tr><td> Place of Birth</td><td>:</td><td>
+              <?php
+              echo $emp->birthPlace;
 	 ?>
 
 
@@ -269,14 +266,8 @@ $result=mysql_query($query);
 
 		  <tr>
 
- <td>Marital Status</td><td>:</td><td> <?php if(empty($married)){
-
-	 echo "<b style='font-weight:normal; color:#ccc;'>Not Married</b>";
- } elseif($married>="1" && $married<="1" ){
-	 echo "Married";
- } elseif($married>="2" && $married<="2" ){
-	 echo "Single";
- }
+ <td>Marital Status</td><td>:</td><td> <?php
+    echo $emp->maritalStatus;
 	 ?>
 
 
@@ -329,15 +320,16 @@ $result=mysql_query($query);
 		   <table cellspacing="0" cellpadding="1" width="300px">
 
 
-		   <tr><td>Function</td><td>:</td><td><?php   $rfggg = "select position as total
-from postion where id='$position'  "; $qry=mysql_query($rfggg );
-$row = mysql_fetch_assoc($qry);
- echo $savep4=$row['total']; ;?></td></tr>
+		   <tr><td>Function</td><td>:</td><td>
+               <?php
+               echo $emp->function;
+                ?>
+           </td></tr>
 
 		    <tr><td>Qualification</td><td>:</td><td><?php
- echo $hqual; ;?></td></tr>
+ echo $emp->qualification; ?></td></tr>
 		    <tr><td >Sacramental Status</td><td>:</td><td style='text-transform:uppercase;'><?php
- echo $sac; ;?></td></tr>
+ echo $emp->sacramentalStatus; ?></td></tr>
 
    <tr><td >Prev. Employment</td><td>:</td><td style='text-transform:uppercase;'><?php
  echo $ability; ;?></td></tr>
@@ -352,7 +344,7 @@ $row = mysql_fetch_assoc($qry);
 
 
 		   <tr><td>Emergency Contact</td><td>:</td><td><?php
- echo $next_of_kin; ;?></td></tr>
+ echo $emp->ICEName; ?></td></tr>
 
 		   </table>
 
@@ -395,10 +387,8 @@ $row = mysql_fetch_assoc($qry);
 
 $querys="select * from medal where matricule='$rollg'
 ";
-$results=mysql_query($querys);
-		 while ($row = mysql_fetch_array($results)) {
-
-  $ms=$row["fname"];
+$results=$emp->getMedals();
+		 while ($row = mysqli_fetch_array($results)) {
 		 ?>
 
 		   <tr><td><?php
@@ -414,7 +404,7 @@ $results=mysql_query($querys);
 
 		   <table cellspacing="0" cellpadding="1" width="300px">
 		   <tr><td>Nationality </td><td>:</td><td STYLE='font-weight:normal;'><b STYLE='font-weight:normal'><?php
- echo "CAMEROONIAN"; ;?></b></b></td></tr>
+ echo $emp->nationality; ?></b></b></td></tr>
  </table>
 
 
@@ -481,8 +471,16 @@ $results=mysql_query($querys);
 		   <br>
 		   <table cellspacing="0" cellpadding="1" width="400px">
 
-		    <tr><td> Gross Salary </td><td>:</td><td STYLE='font-weight:normal;'><b STYLE='font-weight:normal'><?php
- echo number_format($salary); ;?></b></b></td></tr>
+		    <tr><td> Gross Salary </td><td>:</td><td STYLE='font-weight:normal;'>
+                <b STYLE='font-weight:normal'>
+                    <?php
+                    if(!isset($salary))
+                    {
+                        $salary = 0;
+                    }
+                        echo number_format($salary);
+                     ?>
+                 </b></b></td></tr>
 
 		    <tr><td> CNPS Number</td><td>:</td><td STYLE='font-weight:normal;'><b STYLE='font-weight:normal'><?php
 ;?></b></b></td></tr>
@@ -506,7 +504,7 @@ if(empty($xcsss)){
 
 		    <tr><td> Telephone Allowance</td><td>:</td><td STYLE='font-weight:normal;'><b STYLE='font-weight:normal'><?php
 $rfggg = "select supp as total
-from salary where matricule='$rollg'  "; $qry=mysql_query($rfggg );
+from salary where matricule='$rollg'  "; $qry=mysql_query($rfggg ) ;
 $row = mysql_fetch_assoc($qry);
     $xcss=$row['total'];
 
@@ -590,14 +588,19 @@ if(empty($f)){
 
 				     <tr><td>Loan amount</td><td>:</td><td STYLE='font-weight:normal;'><b STYLE='font-weight:normal'><?php
 					 $rfggg = "select SUM(amount) as total
-from loan where matricule='$rollg'and extra=''  "; $qry=mysql_query($rfggg );
-$row = mysql_fetch_assoc($qry);
- echo $netss=$row['total'];
+from loan where matricule='$rollg'and extra=''  ";
+// $qry=mysql_query($rfggg );
+// $row = mysql_fetch_assoc($qry);
+//  echo $netss=$row['total'];
+//no loan for now
+echo '';
 ?></b></b></td></tr>
 
 				     <tr><td>Loan balance</td><td>:</td><td STYLE='font-weight:normal;'><b STYLE='font-weight:normal'><?php
 					 $rfggg = "select SUM(amount) as total
-from loan where matricule='$rollg'and extra=''  "; $qry=mysql_query($rfggg );
+from loan where matricule='$rollg'and extra=''  ";
+/* no loan for now
+$qry=mysql_query($rfggg );
 $row = mysql_fetch_assoc($qry);
 $nes=$row['total'];
 		 $rfggg = "select SUM(loan) as total
@@ -605,31 +608,40 @@ from salaryy where matricule='$rollg' and extra=''  "; $qry=mysql_query($rfggg )
 $row = mysql_fetch_assoc($qry);
 $ness=$row['total'];
 echo $fv=($nes-$ness);
+*/
+
+echo '';
 
 ?></b></b></td></tr>
 
 
 			   <tr><td>Bepha</td><td>:</td><td STYLE='font-weight:normal;'><b STYLE='font-weight:normal'><?php
 					 $rfggg = "select SUM(amount) as total
-from loan where matricule='$rollg'and extra=''  "; $qry=mysql_query($rfggg );
-$row = mysql_fetch_assoc($qry);
- echo $netss=$row['total'];
+from loan where matricule='$rollg'and extra=''  ";
+// $qry=mysql_query($rfggg );
+// $row = mysql_fetch_assoc($qry);
+//  echo $netss=$row['total'];
+
+echo '';
 ?></b></b></td></tr>
 
 
 
 			   <tr><td>Employment Type</td><td>:</td><td STYLE='font-weight:normal;'><b STYLE='font-weight:normal'><?php
-					 $rfggg = "select SUM(amount) as total
-from loan where matricule='$rollg'and extra=''  "; $qry=mysql_query($rfggg );
-$row = mysql_fetch_assoc($qry);
- echo $netss=$row['total'];
+// 					 $rfggg = "select SUM(amount) as total
+// from loan where matricule='$rollg'and extra=''  ";
+// $qry=mysql_query($rfggg );
+// $row = mysql_fetch_assoc($qry);
+//  echo $netss=$row['total'];
+echo '';
 ?></b></b></td></tr>
 
 			  <tr><td>N<sup>o</sup> of permission</td><td>:</td><td STYLE='font-weight:normal;'><b STYLE='font-weight:normal'><?php
-					 $rfggg = "select SUM(amount) as total
-from loan where matricule='$rollg'and extra=''  "; $qry=mysql_query($rfggg );
-$row = mysql_fetch_assoc($qry);
- echo $netss=$row['total'];
+// 					 $rfggg = "select SUM(amount) as total
+// from loan where matricule='$rollg'and extra=''  "; $qry=mysql_query($rfggg );
+// $row = mysql_fetch_assoc($qry);
+//  echo $netss=$row['total'];
+ echo ' ';
 ?></b></b></td></tr>
 
 
@@ -639,10 +651,10 @@ $row = mysql_fetch_assoc($qry);
 
 
   <tr><td>N<sup>o</sup> of Absences</td><td>:</td><td STYLE='font-weight:normal;'><b STYLE='font-weight:normal'><?php
-					 $rfggg = "select SUM(amount) as total
-from loan where matricule='$rollg'and extra=''  "; $qry=mysql_query($rfggg );
-$row = mysql_fetch_assoc($qry);
- echo $netss=$row['total'];
+// 					 $rfggg = "select SUM(amount) as total
+// from loan where matricule='$rollg'and extra=''  "; $qry=mysql_query($rfggg );
+// $row = mysql_fetch_assoc($qry);
+//  echo $netss=$row['total'];
 ?></b></b></td></tr>
 
 
@@ -687,11 +699,11 @@ $querys="select * from files where matricule='$rollg'
 $results=mysql_query($querys);
 		 while ($row = mysql_fetch_array($results)) {
 
-  $ms=$row["fname"];
+  // $ms=$row["fname"];
 		 ?>
 
 		   <tr><td><?php
- echo $savep4=$row['type']; ;?></td><td><?php
+ echo $savep4=$row['name']; ;?></td><td><?php
                 echo '<strong class="text-success"><i class="fa fa-check"></i></strong>';
                 ?></td></tr>
 		 <?php }

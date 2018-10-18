@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 18, 2018 at 09:45 
+-- Generation Time: Oct 18, 2018 at 12:51 
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.24
 
@@ -534,7 +534,10 @@ INSERT INTO `login` (`id`, `user_id`, `status`, `date`, `time_added`, `logout`) 
 (6, 'DIOCE-12-12', 1, '02/10/2018', '2018-10-02 01:22:15', '2018-10-02 01:22:15'),
 (7, 'DIOCE-12-12', 1, '06/10/2018', '2018-10-06 14:45:45', '2018-10-06 14:45:45'),
 (8, 'DIOCE-12-12', 1, '16/10/2018', '2018-10-16 07:16:17', '2018-10-16 07:16:17'),
-(9, 'DIOCE-12-12', 1, '18/10/2018', '2018-10-18 07:33:01', '2018-10-18 07:33:01');
+(9, 'DIOCE-12-12', 1, '18/10/2018', '2018-10-18 07:33:01', '2018-10-18 07:33:01'),
+(10, 'DIOCE-12-12', 1, '18/10/2018', '2018-10-18 08:28:02', '2018-10-18 08:28:02'),
+(11, 'DIOCE-12-12', 1, '18/10/2018', '2018-10-18 08:34:35', '2018-10-18 08:34:35'),
+(12, 'DIOCE-12-12', 1, '18/10/2018', '2018-10-18 08:37:46', '2018-10-18 08:37:46');
 
 -- --------------------------------------------------------
 
@@ -793,6 +796,94 @@ INSERT INTO `req_items` (`id`, `category_code`, `item_name`, `item_code`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `salary`
+--
+
+CREATE TABLE `salary` (
+  `roll` int(50) NOT NULL,
+  `matricule` varchar(400) NOT NULL,
+  `ecc` varchar(400) NOT NULL,
+  `basic` varchar(400) NOT NULL,
+  `rent` varchar(400) NOT NULL,
+  `special` varchar(400) NOT NULL,
+  `seniorit` varchar(400) NOT NULL,
+  `grosss` varchar(400) NOT NULL,
+  `grosst` varchar(400) NOT NULL,
+  `nett` varchar(400) NOT NULL,
+  `pit` varchar(400) NOT NULL,
+  `act` varchar(400) NOT NULL,
+  `lbr` varchar(400) NOT NULL,
+  `crtv` varchar(400) NOT NULL,
+  `ldt` varchar(400) NOT NULL,
+  `nsif` varchar(400) NOT NULL,
+  `totald` varchar(400) NOT NULL,
+  `net` varchar(400) NOT NULL,
+  `day` varchar(400) NOT NULL,
+  `year` varchar(400) NOT NULL,
+  `month` varchar(400) NOT NULL,
+  `cm` int(255) NOT NULL,
+  `allowa` varchar(400) NOT NULL,
+  `house` varchar(400) NOT NULL,
+  `supp` varchar(400) NOT NULL,
+  `rentallow` varchar(400) NOT NULL,
+  `cfc` varchar(400) NOT NULL,
+  `cc` varchar(400) NOT NULL,
+  `cnpse` varchar(400) NOT NULL,
+  `light` varchar(400) NOT NULL,
+  `loan` varchar(400) NOT NULL,
+  `schoolid` varchar(400) NOT NULL,
+  `extra` varchar(400) NOT NULL,
+  `fuel` varchar(400) NOT NULL,
+  `other` varchar(400) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `salaryy`
+--
+
+CREATE TABLE `salaryy` (
+  `roll` int(50) NOT NULL,
+  `cm` varchar(400) NOT NULL,
+  `matricule` varchar(400) NOT NULL,
+  `ecc` varchar(400) NOT NULL,
+  `basic` varchar(400) NOT NULL,
+  `rent` varchar(400) NOT NULL,
+  `special` varchar(400) NOT NULL,
+  `seniorit` varchar(400) NOT NULL,
+  `grosss` varchar(400) NOT NULL,
+  `grosst` varchar(400) NOT NULL,
+  `nett` varchar(400) NOT NULL,
+  `pit` varchar(400) NOT NULL,
+  `act` varchar(400) NOT NULL,
+  `lbr` varchar(400) NOT NULL,
+  `crtv` varchar(400) NOT NULL,
+  `ldt` varchar(400) NOT NULL,
+  `nsif` varchar(400) NOT NULL,
+  `totald` varchar(400) NOT NULL,
+  `net` varchar(400) NOT NULL,
+  `day` varchar(400) NOT NULL,
+  `year` varchar(400) NOT NULL,
+  `month` varchar(400) NOT NULL,
+  `supp` varchar(400) NOT NULL,
+  `rentallow` varchar(400) NOT NULL,
+  `house` varchar(400) NOT NULL,
+  `cfc` varchar(400) NOT NULL,
+  `cc` varchar(400) NOT NULL,
+  `loan` varchar(400) NOT NULL,
+  `cnpse` varchar(400) NOT NULL,
+  `light` varchar(400) NOT NULL,
+  `schoolid` varchar(400) NOT NULL,
+  `extra` varchar(400) NOT NULL,
+  `fuel` varchar(400) NOT NULL,
+  `other` varchar(400) NOT NULL,
+  `allowa` varchar(400) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `schools`
 --
 
@@ -1036,6 +1127,18 @@ ALTER TABLE `req_items`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `salary`
+--
+ALTER TABLE `salary`
+  ADD PRIMARY KEY (`roll`);
+
+--
+-- Indexes for table `salaryy`
+--
+ALTER TABLE `salaryy`
+  ADD PRIMARY KEY (`roll`);
+
+--
 -- Indexes for table `schools`
 --
 ALTER TABLE `schools`
@@ -1117,7 +1220,7 @@ ALTER TABLE `leave_requests`
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `id` int(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `medals`
 --
@@ -1158,6 +1261,16 @@ ALTER TABLE `req_count`
 --
 ALTER TABLE `req_items`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT for table `salary`
+--
+ALTER TABLE `salary`
+  MODIFY `roll` int(50) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `salaryy`
+--
+ALTER TABLE `salaryy`
+  MODIFY `roll` int(50) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `schools`
 --
