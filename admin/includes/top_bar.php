@@ -12,12 +12,7 @@
 
                     <!-- Logo container-->
                     <div class="logo">
-                        <!-- Text Logo -->
-                        <!-- <a href="index.html" class="logo">
-                            <span class="logo-small"><i class="mdi mdi-radar"></i></span>
-                            <span class="logo-large"><i class="mdi mdi-radar"></i> Highdmin</span>
-                        </a> -->
-                        <!-- Image Logo -->
+
                         <a href="index.html" class="logo">
                             <img src="../assets/images/logo_sm.png" alt="" height="26" class="logo-small">
                             <img src="../assets/images/logo.png" alt="" height="32" class="logo-large">
@@ -96,9 +91,13 @@
 
 
                             <li class="dropdown notification-list">
-                                <a class="nav-link dropdown-toggle waves-effect nav-user" data-toggle="dropdown" href="#" role="button"
+                                <a class="nav-link dropdown-toggle waves-effect nav-user" data-toggle="dropdown"
+                                href="#" role="button"
                                    aria-haspopup="false" aria-expanded="false">
-                                    <img src="../assets/images/avatar.png" alt="user" class="rounded-circle"> <span class="ml-1 pro-user-name">Maxine K <i class="mdi mdi-chevron-down"></i> </span>
+                                    <img src="<?php echo '../' . $_SESSION['avatar']; ?>" alt="user"
+                                    class="rounded-circle">
+                                    <span class="ml-1 pro-user-name"> <?php echo $_SESSION['username']; ?>
+                                        <i class="mdi mdi-chevron-down"></i> </span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                     <!-- item-->
@@ -107,23 +106,13 @@
                                     </div>
 
                                     <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <i class="fi-head"></i> <span>My Account</span>
+                                    <a href="edit_user.php?id=<?php echo $_SESSION['user_id']; ?>" class="dropdown-item notify-item">
+                                        <i class="fi-head"></i> <span>Edit My Account</span>
                                     </a>
 
                                     <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <i class="fi-cog"></i> <span>Settings</span>
-                                    </a>
-
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <i class="fi-help"></i> <span>Support</span>
-                                    </a>
-
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <i class="fi-lock"></i> <span>Lock Screen</span>
+                                    <a href="change_password.php" class="dropdown-item notify-item">
+                                        <i class="fi-lock"></i> <span>Change Password</span>
                                     </a>
 
                                     <!-- item-->
